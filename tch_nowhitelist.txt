@@ -1,0 +1,3784 @@
+-- Lynd Deobfuscator & Dumper | https://discord.gg/SRvRc2XF6s
+-- processed in 33723ms
+
+local players, coreGui, userInputService, tweenService, runService, lighting, httpService, contextActionService, v1, localPlayer, currentCamera, v2, v3, v4, partRghvrWjAi2yg, v5, color3, color4, color5, color6, color7, color8, azeerFollowerGui, instance10, instance14, v6, tyig0vV7twwvShf4SbvF, instance16, v7, v8, setting, instance28, instance29, autoGarpGui, instance38, azeerAimbotWarning, instance42, instance45, instance46, v9, v10, azeerAimbotGui, instance47, v11, instance71, v12, azeerAutoInterfaceWarning, instance79, instance90, instance91, color14, color15, color16, color17, color18, azeerMovementAssist, instance92, instance96, instance97, instance98, instance100, v13, v14, color20, color21, v15, azeerShakeGui, instance104, instance107, instance108, instance109, instance111, jvTE0tboAgCxjR, azeerTitanEntry, instance116
+players = game:GetService("Players")
+coreGui = game:GetService("CoreGui")
+userInputService = game:GetService("UserInputService")
+tweenService = game:GetService("TweenService")
+runService = game:GetService("RunService")
+local soundService = game:GetService("SoundService")
+do
+    lighting = game:GetService("Lighting")
+    httpService = game:GetService("HttpService")
+    contextActionService = game:GetService("ContextActionService")
+    v1 = setmetatable({
+    }, {
+        __index = {
+        },
+        __metatable =  nil
+    }
+)
+    localPlayer = players.LocalPlayer
+    getgenv().ResolutionScale = 0.65
+    getgenv().Toggled =  false
+    currentCamera = workspace.CurrentCamera
+    v2 = {
+        Background = Color3.fromRGB(18,
+        7,
+        11),
+        Gold = Color3.fromRGB(244,
+        105,
+        130),
+        Secondary = Color3.fromRGB(43,
+        17,
+        24),
+        Text = Color3.fromRGB(255,
+        255,
+        255),
+        DimText = Color3.fromRGB(190,
+        112,
+        128),
+        White = Color3.fromRGB(255,
+        255,
+        255),
+        Accent = Color3.fromRGB(220,
+        78,
+        105),
+        Neon = Color3.fromRGB(255,
+        145,
+        165),
+    }
+end
+local color = Color3.fromRGB(163, 162, 165)
+local color2 = Color3.fromRGB(244, 105, 130)
+local plastic = Enum.Material.Plastic
+local function f1()
+    local instance8 = Instance.new("Sound", soundService)
+    instance8.SoundId = "rbxassetid://83434848218433"
+    instance8.Volume = 2
+    instance8:Play()
+    instance8.Ended:Connect(function()
+        instance8:Destroy()
+    end
+)
+end
+local function f2(p1, p2)
+    local inputBegan = p1.InputBegan
+    local v16, position, position2
+    inputBegan:Connect(function(p3)
+        if(p3.UserInputType == Enum.UserInputType.MouseButton1 or p3.UserInputType == Enum.UserInputType.Touch) and true then
+            v16 =  true
+            position = p3.Position
+            position2 = p2.Position
+            p3.Changed:Connect(function()
+                if p3.UserInputState == Enum.UserInputState.End then
+                    v16 =  false
+                end
+            end
+)
+        end
+    end
+)
+    local v17
+    p1.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            v17 = input
+        end
+    end
+)
+    userInputService.InputChanged:Connect(function(input2)
+        if input2 == v17 and v16 and true then
+            local v18 = input2.Position - position
+            p2.Position = UDim2.new(position2.X.Scale, position2.X.Offset + v18.X, position2.Y.Scale, position2.Y.Offset + v18.Y)
+        end
+    end
+)
+end
+local f3
+local function f4(p4)
+    if p4:GetAttribute("_cleaned") then
+        return
+    else
+        p4:SetAttribute("_cleaned",  true)
+        local function f5()
+            local v19, v20, v21 = ipairs(p4:GetDescendants())
+            local v22, v23 = v19(v20, v21)
+            if v22 then
+                if v23:IsA("BasePart") then
+                    v23.Color = color
+                    v23.Material = plastic
+                    v23.Reflectance = 0
+                    v23.CastShadow =  false
+                elseif v23:IsA("Texture") or v23:IsA("Decal") or v23:IsA("SpecialMesh") then
+                    v23:Destroy()
+                else
+                    if not(v23:IsA("ParticleEmitter") or v23:IsA("Trail") or v23:IsA("Beam") or v23:IsA("Fire") or v23:IsA("Smoke")) then
+                        return
+                    end
+                    v23.Enabled =  false
+                end
+            else
+                return
+            end
+        end
+        f5()
+        f3(p4)
+        p4.DescendantAdded:Connect(function(descendant)
+            task.defer(function()
+                if descendant and descendant.Parent then
+                    if descendant:IsA("BasePart") then
+                        descendant.Color = color
+                        descendant.Material = plastic
+                        descendant.Reflectance = 0
+                        descendant.CastShadow =  false
+                    elseif descendant:IsA("Texture") or descendant:IsA("Decal") or descendant:IsA("SpecialMesh") then
+                        descendant:Destroy()
+                    elseif descendant:IsA("ParticleEmitter") or descendant:IsA("Trail") or descendant:IsA("Beam") or descendant:IsA("Fire") or descendant:IsA("Smoke") then
+                        descendant.Enabled =  false
+                    end
+                end
+            end
+)
+        end
+)
+        return
+    end
+end
+function f3(p5)
+    local v24 = {
+    }
+    for index, value in ipairs(p5:GetDescendants()) do
+        if value:IsA("BasePart") then
+            table.insert(v24, value)
+        end
+    end
+    task.spawn(function()
+        local v25 = tick()
+        while tick() - v25 < 10 do
+            local v26 = tick()
+            local v27 = math.max(0.05, 0.4 *(1 -(v26 - v25) / 10))
+            for index2, value2 in ipairs(v24) do
+                if value2 and value2.Parent then
+                    value2.Color = color2
+                end
+            end
+            task.wait(v27)
+            for index3, value3 in ipairs(v24) do
+                if value3 and value3.Parent then
+                    value3.Color = color
+                end
+            end
+            task.wait(v27)
+        end
+        for index4, value4 in ipairs(v24) do
+            if value4 and value4.Parent then
+                value4.Color = color
+                value4.Material = plastic
+            end
+        end
+    end
+)
+end
+v3 =  false
+v4 =  false
+runService.Heartbeat:Connect(function(delta)
+    if not v4 then
+        return
+    else
+        local character = localPlayer.Character
+        local humanoidRootPart = character and character:FindFirstChild("HumanoidRootPart")
+        local humanoid = character and character:FindFirstChild("Humanoid")
+        if humanoidRootPart and humanoid and humanoid.MoveDirection.Magnitude > 0.1 then
+            local lerp = humanoidRootPart.CFrame.LookVector:Lerp(humanoid.MoveDirection, 12 * delta)
+            humanoidRootPart.CFrame = CFrame.lookAt(humanoidRootPart.Position, humanoidRootPart.Position + lerp)
+        end
+        return
+    end
+end
+)
+partRghvrWjAi2yg =  nil
+local function f6()
+    if partRghvrWjAi2yg then
+        partRghvrWjAi2yg:Destroy()
+    end
+    partRghvrWjAi2yg = Instance.new("Model", workspace)
+    partRghvrWjAi2yg.Name = "Part_RghvrWjAi2yg"
+    for key, value5 in pairs({
+        Head = Vector3.new(1,
+        1,
+        1),
+        Torso = Vector3.new(2,
+        2,
+        1),
+        ["Left Arm"] = Vector3.new(1,
+        2,
+        1),
+        ["Right Arm"] = Vector3.new(1,
+        2,
+        1),
+        ["Left Leg"] = Vector3.new(1,
+        2,
+        1),
+        ["Right Leg"] = Vector3.new(1,
+        2,
+        1),
+    }
+) do
+        local instance9 = Instance.new("Part", partRghvrWjAi2yg)
+        instance9.Name = key
+        instance9.Size = value5
+        instance9.Transparency = 0.5
+        instance9.Color = v2.Gold
+        instance9.Material = Enum.Material.Neon
+        instance9.Anchored =  true
+        instance9.CanCollide =  false
+    end
+end
+do
+    v5 =  false
+    local v28 = {
+    }
+    local v29 = 0
+    runService.PostSimulation:Connect(function()
+        if not v5 or not localPlayer.Character then
+            return
+        else
+            local v30 = tick()
+            if v30 - v29 < 0.05 then
+                return
+            else
+                v29 = v30
+                local character2 = localPlayer.Character
+                local v31 =(_G.AzeerPing or 200) / 1000
+                local v32 = {
+                    Time = v30,
+                    Parts = {
+                    }
+                }
+                for key2, value6 in pairs(character2:GetChildren()) do
+                    if value6:IsA("BasePart") then
+                        v32.Parts[value6.Name] = value6.CFrame
+                    end
+                end
+                table.insert(v28, v32)
+                if # v28 > 80 then
+                    table.remove(v28, 1)
+                end
+                local v33 = v30 - v31
+                local v34 =  nil
+                local v35 = 1
+                local v36 =  true
+                local v37 =  # v28 -  - 1
+                while true do
+                    v37 =  - 1 + v37
+                    if not(v36 and v37 >= v35 or not v36 and v37 <= v35) then
+                        break
+                    end
+                    local v38 = v37
+                    if v28[v38].Time <= v33 then
+                        v34 = v28[v38]
+                        break
+                    end
+                end
+                if v34 and partRghvrWjAi2yg then
+                    for key3, value7 in pairs(v34.Parts) do
+                        local findFirstChild = partRghvrWjAi2yg:FindFirstChild(key3)
+                        if findFirstChild then
+                            findFirstChild.CFrame = value7
+                        end
+                    end
+                end
+                return
+            end
+        end
+    end
+)
+    color3 = Color3.fromRGB(18, 7, 11)
+    color4 = Color3.fromRGB(43, 17, 24)
+    color5 = Color3.fromRGB(75, 27, 39)
+    color6 = Color3.fromRGB(244, 105, 130)
+    color7 = Color3.fromRGB(255, 255, 255)
+    color8 = Color3.fromRGB(255, 255, 255)
+    azeerFollowerGui = Instance.new("ScreenGui")
+    azeerFollowerGui.Name = "AzeerFollowerGui"
+end
+do
+    azeerFollowerGui.ResetOnSpawn =  false
+    azeerFollowerGui.Enabled =  false
+    azeerFollowerGui.Parent = coreGui
+    instance10 = Instance.new("Frame", azeerFollowerGui)
+    instance10.Size = UDim2.new(0, 300, 0, 130)
+    instance10.Position = UDim2.new(0.5,  - 150, 0.1, 0)
+    instance10.BackgroundColor3 = color3
+    instance10.BorderSizePixel = 0
+    instance10.Active =  true
+    instance10.Draggable =  true
+    Instance.new("UICorner", instance10).CornerRadius = UDim.new(0, 18)
+    local instance11 = Instance.new("UIGradient", instance10)
+    instance11.Rotation = 90
+    instance11.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0,
+        color4),
+        ColorSequenceKeypoint.new(1,
+        color3),
+    }
+)
+end
+do
+    local instance12 = Instance.new("UIStroke", instance10)
+    instance12.Color = color6
+    instance12.Thickness = 2
+    local instance13 = Instance.new("TextLabel", instance10)
+    instance13.Size = UDim2.new(1, 0, 0.4, 0)
+    instance13.BackgroundTransparency = 1
+    instance13.Text = "A Z E E R  FOLLOW"
+    instance13.TextColor3 = color7
+    instance13.Font = Enum.Font.GothamBlack
+    instance13.TextSize = 25
+    instance13.TextStrokeTransparency = 0.6
+    instance13.TextStrokeColor3 = color3
+end
+do
+    instance14 = Instance.new("TextButton", instance10)
+    instance14.Size = UDim2.new(0.9, 0, 0.45, 0)
+    instance14.Position = UDim2.new(0.05, 0, 0.5, 0)
+    instance14.BackgroundColor3 = color5
+    instance14.TextColor3 = color8
+    instance14.Font = Enum.Font.GothamBold
+    instance14.TextSize = 22
+    instance14.Text = "FOLLOW  :  OFF"
+    instance14.BorderSizePixel = 0
+    instance14.AutoButtonColor =  false
+    Instance.new("UICorner", instance14).CornerRadius = UDim.new(0, 14)
+    local instance15 = Instance.new("UIStroke", instance14)
+    instance15.Color = color6
+    instance15.Thickness = 1.5
+end
+do
+    v6 =  false
+    instance14.MouseButton1Click:Connect(function()
+        v6 =  not v6
+        instance14.Text = v6 and "FOLLOW  :  ON" or "FOLLOW  :  OFF"
+        instance14.BackgroundColor3 = v6 and color6 or color5
+    end
+)
+    local function f7(p6)
+        local huge = math.huge
+        local v39
+        for index5, value8 in ipairs(players:GetPlayers()) do
+            if value8 ~= localPlayer and value8.Character then
+                local character3 = value8.Character
+                local humanoidRootPart2 = character3:FindFirstChild("HumanoidRootPart")
+                local humanoid2 = character3:FindFirstChildOfClass("Humanoid")
+                if humanoidRootPart2 and humanoid2 and humanoid2.Health > 0 then
+                    local v40 =  false
+                    if localPlayer.Team and value8.Team == localPlayer.Team then
+                        v40 =  true
+                    end
+                    if character3:FindFirstChildOfClass("Highlight") then
+                        v40 =  true
+                    end
+                    if not v40 then
+                        local magnitude =(humanoidRootPart2.Position - p6.Position).Magnitude
+                        if magnitude < huge then
+                            huge = magnitude
+                            v39 = character3
+                        end
+                    end
+                end
+            end
+        end
+        return v39
+    end
+    local v41 = 0
+    local v42
+    runService.Heartbeat:Connect(function()
+        if not v6 then
+            return
+        else
+            local character4 = localPlayer.Character
+            if not character4 then
+                return
+            else
+                local humanoid3 = character4:FindFirstChildOfClass("Humanoid")
+                local humanoidRootPart3 = character4:FindFirstChild("HumanoidRootPart")
+                if not humanoid3 or not humanoidRootPart3 or humanoid3.Health <= 0 then
+                    return
+                else
+                    local v43 = f7(humanoidRootPart3)
+                    if not v43 then
+                        return
+                    else
+                        local humanoidRootPart4 = v43:FindFirstChild("HumanoidRootPart")
+                        if not humanoidRootPart4 then
+                            return
+                        else
+                            local v44 = humanoidRootPart4.Position +(humanoidRootPart3.Position - humanoidRootPart4.Position).Unit * 2.3
+                            local v45 = tick()
+                            if not v42 or(v44 - v42).Magnitude > 0.5 or v45 - v41 > 0.5 then
+                                humanoid3:MoveTo(v44)
+                                v42 = v44
+                                v41 = v45
+                            end
+                            return
+                        end
+                    end
+                end
+            end
+        end
+    end
+)
+    tyig0vV7twwvShf4SbvF = Instance.new("ScreenGui", coreGui)
+    tyig0vV7twwvShf4SbvF.Name = "tyig0vV7twwvShf4SbvF"
+    tyig0vV7twwvShf4SbvF.Enabled =  false
+    instance16 = Instance.new("Frame", tyig0vV7twwvShf4SbvF)
+    instance16.Size = UDim2.new(0, 500, 0, 300)
+    instance16.Position = UDim2.new(0.5,  - 250, 0.5,  - 150)
+end
+do
+    instance16.BackgroundTransparency = 0.05
+    instance16.BackgroundColor3 = v2.Background
+    instance16.ClipsDescendants =  true
+    Instance.new("UICorner", instance16).CornerRadius = UDim.new(0, 18)
+    local instance17 = Instance.new("ImageLabel", instance16)
+    instance17.Size = UDim2.new(1, 0, 1, 0)
+    instance17.Position = UDim2.new(0, 0, 0, 0)
+    instance17.AnchorPoint = Vector2.new(0, 0)
+    instance17.Image = "rbxthumb://type=Asset&id=189887922&w=420&h=420"
+    instance17.BackgroundTransparency = 1
+    instance17.ImageTransparency = 0.25
+    instance17.ImageColor3 = Color3.fromRGB(255, 255, 255)
+    instance17.ZIndex = 1
+    instance17.ScaleType = Enum.ScaleType.Crop
+    Instance.new("UICorner", instance17).CornerRadius = UDim.new(0, 18)
+end
+do
+    local instance18 = Instance.new("UIStroke", instance16)
+    instance18.Color = v2.Gold
+    instance18.Thickness = 2.5
+    instance18.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    local instance19 = Instance.new("Frame", instance16)
+    instance19.Size = UDim2.new(1, 0, 0, 42)
+    instance19.BackgroundTransparency = 1
+    instance19.ZIndex = 5
+    f2(instance19, instance16)
+    local instance20 = Instance.new("TextLabel", instance19)
+    instance20.Size = UDim2.new(0, 220, 1, 0)
+    instance20.Position = UDim2.new(0.03, 0, 0, 0)
+    instance20.Text = "⚡ A Z E E R  V O R T E X"
+    instance20.TextColor3 = v2.Gold
+    instance20.Font = Enum.Font.GothamBlack
+    instance20.TextSize = 15
+    instance20.TextXAlignment = Enum.TextXAlignment.Left
+    instance20.BackgroundTransparency = 1
+    local instance21 = Instance.new("TextLabel", instance19)
+    instance21.Size = UDim2.new(0, 180, 0, 16)
+    instance21.Position = UDim2.new(0.03, 0, 0.62, 0)
+    instance21.Text = "DELTA MOBILE EDITION"
+    instance21.TextColor3 = Color3.fromRGB(200, 200, 200)
+    instance21.Font = Enum.Font.GothamMedium
+    instance21.TextSize = 10
+    instance21.TextXAlignment = Enum.TextXAlignment.Left
+    instance21.BackgroundTransparency = 1
+    local instance22 = Instance.new("Frame", instance19)
+    instance22.Size = UDim2.new(0, 180, 0, 30)
+    instance22.Position = UDim2.new(0.6, 0, 0.15, 0)
+    instance22.BackgroundTransparency = 1
+    local instance23 = Instance.new("TextLabel", instance22)
+    instance23.Size = UDim2.new(0.5, 0, 1, 0)
+    instance23.Text = "FPS: 60"
+    instance23.TextColor3 = Color3.fromRGB(255, 255, 255)
+    instance23.Font = Enum.Font.Code
+    instance23.TextSize = 13
+    instance23.BackgroundTransparency = 1
+    local instance24 = Instance.new("TextLabel", instance22)
+    instance24.Size = UDim2.new(0.5, 0, 1, 0)
+    instance24.Position = UDim2.new(0.5, 0, 0, 0)
+    instance24.Text = "PING: 0ms"
+    instance24.TextColor3 = v2.Gold
+    instance24.Font = Enum.Font.Code
+    instance24.TextSize = 13
+    instance24.BackgroundTransparency = 1
+    local v46 = 0
+    runService.RenderStepped:Connect(function()
+        v46 = v46 + 1
+    end
+)
+    task.spawn(function()
+        while true do
+            task.wait(1)
+            instance23.Text = "FPS: "..tostring(v46)
+            instance24.Text = "PING: "..tostring(math.floor(localPlayer:GetNetworkPing() * 1000)).. "ms"
+            v46 = 0
+        end
+    end
+)
+end
+do
+    local instance25 = Instance.new("Frame", instance16)
+    instance25.Size = UDim2.new(1, 0, 0, 35)
+    instance25.Position = UDim2.new(0, 0, 0.15, 0)
+    instance25.BackgroundTransparency = 1
+    instance25.ZIndex = 5
+    v7 = {
+        Main = Instance.new("Frame",
+        instance16),
+        Misc = Instance.new("Frame",
+        instance16),
+        Scale = Instance.new("Frame",
+        instance16),
+        Setting = Instance.new("Frame",
+        instance16),
+    }
+    for key4, value9 in pairs(v7) do
+        value9.Size = UDim2.new(1, 0, 0.7, 0)
+        value9.Position = UDim2.new(0, 0, 0.28, 0)
+        value9.BackgroundTransparency = 1
+        value9.Visible = key4 == "Main"
+        value9.ZIndex = 5
+    end
+    local v47 = {
+    }
+    local function f8(p7)
+        f1()
+        for key5, value10 in pairs(v7) do
+            if typeof(value10) == "Instance" and value10:IsA("GuiObject") then
+                value10.Visible = key5 == p7
+            end
+        end
+        for key6, value11 in pairs(v47) do
+            tweenService:Create(value11, TweenInfo.new(0.25), {
+                TextColor3 = key6 == p7 and v2.Gold or v2.DimText,
+                BackgroundColor3 = key6 == p7 and Color3.fromRGB(92,
+                31,
+                47) or v2.Secondary,
+            }
+):Play()
+        end
+    end
+    for index6, value12 in ipairs({
+        "Main",
+        "Misc",
+        "Scale",
+        "Setting"
+    }
+) do
+        local v48 = value12
+        local instance26 = Instance.new("TextButton", instance25)
+        instance26.Size = UDim2.new(0.23, 0, 0.8, 0)
+        instance26.Position = UDim2.new(0.01 +(index6 - 1) * 0.25, 0, 0, 0)
+        instance26.Text = v48
+        instance26.BackgroundColor3 = v48 == "Main" and Color3.fromRGB(92, 31, 47) or v2.Secondary
+        instance26.TextColor3 = v48 == "Main" and v2.Gold or v2.DimText
+        instance26.Font = Enum.Font.GothamBold
+        instance26.TextSize = 13
+        Instance.new("UICorner", instance26).CornerRadius = UDim.new(0, 8)
+        v47[v48] = instance26
+        instance26.MouseButton1Click:Connect(function()
+            f8(v48)
+        end
+)
+    end
+    v8 = {
+        Toggles = {
+        },
+        Elements = {
+        },
+        Pending = {
+        }
+    }
+    v7.ConfigState = v8
+end
+do
+    function v7.RegisterConfigToggle(p8, p9, p10)
+        if type(p8) ~= "string" or type(p9) ~= "function" or type(p10) ~= "function" then
+            return false
+        else
+            v8.Elements[p8] = {
+                GetState = p9,
+                SetState = p10
+            }
+            local v49, v50 = pcall(p9)
+            if v49 and type(v50) == "boolean" then
+                v8.Toggles[p8] = v50
+            end
+            local v51 = v8.Pending[p8]
+            if type(v51) == "boolean" then
+                v8.Pending[p8] =  nil
+                if pcall(p10, v51) then
+                    v8.Toggles[p8] = v51
+                end
+            end
+            return true
+        end
+    end
+    setting = v7.Setting
+    local instance27 = Instance.new("TextLabel", setting)
+    instance27.Size = UDim2.new(0.94, 0, 0, 28)
+    instance27.Position = UDim2.new(0.03, 0, 0.02, 0)
+    instance27.BackgroundTransparency = 1
+    instance27.Text = "CONFIGURATION"
+    instance27.TextColor3 = v2.Gold
+    instance27.Font = Enum.Font.GothamBlack
+    instance27.TextSize = 16
+    instance27.TextXAlignment = Enum.TextXAlignment.Left
+    instance28 = Instance.new("TextBox", setting)
+end
+instance28.Size = UDim2.new(0.94, 0, 0, 36)
+instance28.Position = UDim2.new(0.03, 0, 0.19, 0)
+instance28.BackgroundColor3 = v2.Secondary
+instance28.TextColor3 = v2.Text
+instance28.PlaceholderColor3 = v2.DimText
+instance28.PlaceholderText = "Config name"
+instance28.Text = "azeer_config"
+instance28.ClearTextOnFocus =  false
+instance28.Font = Enum.Font.Gotham
+instance28.TextSize = 13
+instance28.BorderSizePixel = 0
+Instance.new("UICorner", instance28).CornerRadius = UDim.new(0, 9)
+do
+    instance29 = Instance.new("TextButton", setting)
+    instance29.Size = UDim2.new(0.45, 0, 0, 40)
+    instance29.Position = UDim2.new(0.03, 0, 0.43, 0)
+    instance29.BackgroundColor3 = Color3.fromRGB(92, 31, 47)
+    instance29.TextColor3 = v2.Gold
+    instance29.Text = "SAVE"
+    instance29.Font = Enum.Font.GothamBold
+    instance29.TextSize = 14
+    instance29.BorderSizePixel = 0
+    Instance.new("UICorner", instance29).CornerRadius = UDim.new(0, 9)
+    local instance30 = Instance.new("TextButton", setting)
+    instance30.Size = UDim2.new(0.45, 0, 0, 40)
+    instance30.Position = UDim2.new(0.52, 0, 0.43, 0)
+    instance30.BackgroundColor3 = v2.Secondary
+    instance30.TextColor3 = v2.Gold
+    instance30.Text = "LOAD"
+    instance30.Font = Enum.Font.GothamBold
+    instance30.TextSize = 14
+    instance30.BorderSizePixel = 0
+    Instance.new("UICorner", instance30).CornerRadius = UDim.new(0, 9)
+    local instance31 = Instance.new("TextLabel", setting)
+    instance31.Size = UDim2.new(0.94, 0, 0, 42)
+    instance31.Position = UDim2.new(0.03, 0, 0.7, 0)
+    instance31.BackgroundTransparency = 1
+    instance31.Text = "Save the window position and registered toggle states."
+    instance31.TextColor3 = v2.DimText
+    instance31.Font = Enum.Font.Gotham
+    instance31.TextSize = 11
+    instance31.TextWrapped =  true
+    local function f9()
+        local sub = instance28.Text:gsub("^%s+", ""):gsub("%s+$", ""):gsub("%.json$", ""):gsub("[^%w_-]", ""):sub(1, 48)
+        if sub == "" then
+            sub = "azeer_config"
+        end
+        return sub.. ".json"
+    end
+    local count = 0
+    local function f10(text, p11)
+        count = count + 1
+        local v52 = count
+        instance31.Text = text
+        instance31.TextColor3 = p11 and v2.Gold or Color3.fromRGB(255, 130, 145)
+        task.delay(2, function()
+            if count == v52 and instance31.Parent then
+                instance31.Text = "Save the window position and registered toggle states."
+                instance31.TextColor3 = v2.DimText
+            end
+        end
+)
+    end
+    instance29.MouseButton1Click:Connect(function()
+        local v53
+        pcall(function()
+            v53 = writefile
+        end
+)
+        local v54
+        if type(v53) ~= "function" then
+            f10("Executor file access is unavailable.",  false)
+            return
+        else
+            local v55 = {
+            }
+            for key7, value13 in pairs(v8.Pending) do
+                if type(value13) == "boolean" then
+                    v55[key7] = value13
+                end
+            end
+            for key8, value14 in pairs(v8.Elements) do
+                local v56, v57 = pcall(value14.GetState)
+                if v56 and type(v57) == "boolean" then
+                    v55[key8] = v57
+                    v8.Toggles[key8] = v57
+                end
+            end
+            v54 = {
+                Version = 1,
+                Position = {
+                    XScale = instance16.Position.X.Scale,
+                    XOffset = instance16.Position.X.Offset,
+                    YScale = instance16.Position.Y.Scale,
+                    YOffset = instance16.Position.Y.Offset,
+                },
+                Toggles = v55,
+            }
+            local v58, v59 = pcall(function()
+                return httpService:JSONEncode(v54)
+            end
+)
+            if not v58 then
+                f10("Could not encode the config.",  false)
+                return
+            end
+            if pcall(v53, f9(), v59) then
+                f10("Saved: "..f9(),  true)
+            else
+                f10("Could not write the config file.",  false)
+            end
+            return
+        end
+    end
+)
+    instance30.MouseButton1Click:Connect(function()
+        local v60, v61
+        pcall(function()
+            v60 = isfile
+            v61 = readfile
+        end
+)
+        local v62, v63, v64, v65, v66
+        if type(v60) ~= "function" or type(v61) ~= "function" then
+            f10("Executor file access is unavailable.",  false)
+            return
+        else
+            local v67 = f9()
+            local v68, v69 = pcall(v60, v67)
+            if not v68 or not v69 then
+                f10("Config file not found: "..v67,  false)
+                return
+            else
+                local v70
+                v70, v66 = pcall(v61, v67)
+                if not v70 or type(v66) ~= "string" then
+                    f10("Could not read the config file.",  false)
+                    return
+                else
+                    local v71, v72 = pcall(function()
+                        return httpService:JSONDecode(v66)
+                    end
+)
+                    if not v71 or type(v72) ~= "table" then
+                        f10("Config file is invalid.",  false)
+                        return
+                    else
+                        local position3 = v72.Position
+                        if type(position3) == "table" then
+                            v64 = tonumber(position3.XScale)
+                            v62 = tonumber(position3.XOffset)
+                            v65 = tonumber(position3.YScale)
+                            v63 = tonumber(position3.YOffset)
+                            if v64 and v62 and v65 and v63 then
+                                pcall(function()
+                                    instance16.Position = UDim2.new(v64, v62, v65, v63)
+                                end
+)
+                            end
+                        end
+                        local count2 = 0
+                        if type(v72.Toggles) == "table" then
+                            for key9, value15 in pairs(v72.Toggles) do
+                                if type(value15) == "boolean" then
+                                    local v73 = v8.Elements[key9]
+                                    if v73 then
+                                        if pcall(v73.SetState, value15) then
+                                            v8.Toggles[key9] = value15
+                                            count2 = count2 + 1
+                                        end
+                                    else
+                                        v8.Pending[key9] = value15
+                                    end
+                                end
+                            end
+                        end
+                        f10("Loaded "..tostring(count2).. " toggle(s).",  true)
+                        return
+                    end
+                end
+            end
+        end
+    end
+)
+end
+do
+    v7.RegisterConfigToggle("Player Follow", function()
+        return v6
+    end
+, function(p12)
+        v6 = p12 ==  true
+        instance14.Text = v6 and "FOLLOW  :  ON" or "FOLLOW  :  OFF"
+        instance14.BackgroundColor3 = v6 and color6 or color5
+    end
+)
+    if getgenv().ResolutionLoop ==  nil then
+        local v74 = getgenv()
+        v74.ResolutionLoop = runService.RenderStepped:Connect(function()
+            if getgenv().Toggled then
+                currentCamera.CFrame = currentCamera.CFrame * CFrame.new(0, 0, 0, 1, 0, 0, 0, getgenv().ResolutionScale, 0, 0, 0, 1)
+            end
+        end
+)
+    end
+    local instance32 = Instance.new("TextButton", v7.Scale)
+    instance32.Size = UDim2.new(0.94, 0, 0, 50)
+    instance32.Position = UDim2.new(0.03, 0, 0.05, 0)
+    instance32.Text = "RES SYSTEM: OFF"
+    instance32.BackgroundColor3 = v2.Secondary
+    instance32.TextColor3 = v2.Text
+    instance32.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", instance32).CornerRadius = UDim.new(0, 10)
+    instance32.MouseButton1Click:Connect(function()
+        f1()
+        getgenv().Toggled =  not getgenv().Toggled
+        instance32.Text = getgenv().Toggled and "RES SYSTEM: ON" or "RES SYSTEM: OFF"
+        instance32.TextColor3 = getgenv().Toggled and v2.Neon or v2.Text
+        instance32.BackgroundColor3 = getgenv().Toggled and Color3.fromRGB(92, 31, 47) or v2.Secondary
+        if not getgenv().Toggled then
+            currentCamera.CFrame = currentCamera.CFrame * CFrame.new(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+        end
+    end
+)
+    v7.RegisterConfigToggle("Resolution System", function()
+        return getgenv().Toggled ==  true
+    end
+, function(p13)
+        getgenv().Toggled = p13 ==  true
+        instance32.Text = getgenv().Toggled and "RES SYSTEM: ON" or "RES SYSTEM: OFF"
+        instance32.TextColor3 = getgenv().Toggled and v2.Neon or v2.Text
+        instance32.BackgroundColor3 = getgenv().Toggled and Color3.fromRGB(92, 31, 47) or v2.Secondary
+        if not getgenv().Toggled then
+            currentCamera.CFrame = currentCamera.CFrame * CFrame.new(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+        end
+    end
+)
+end
+do
+    local instance33 = Instance.new("TextButton", v7.Scale)
+    instance33.Size = UDim2.new(0.45, 0, 0, 60)
+    instance33.Position = UDim2.new(0.03, 0, 0.35, 0)
+    instance33.Text = "RC UP (+)"
+    instance33.BackgroundColor3 = v2.Secondary
+    instance33.TextColor3 = v2.Gold
+    instance33.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", instance33).CornerRadius = UDim.new(0, 10)
+    local instance34 = Instance.new("TextButton", v7.Scale)
+    instance34.Size = UDim2.new(0.45, 0, 0, 60)
+    instance34.Position = UDim2.new(0.52, 0, 0.35, 0)
+    instance34.Text = "RC DOWN (-)"
+    instance34.BackgroundColor3 = v2.Secondary
+    instance34.TextColor3 = v2.Gold
+    instance34.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", instance34).CornerRadius = UDim.new(0, 10)
+    local instance35 = Instance.new("TextLabel", v7.Scale)
+    instance35.Size = UDim2.new(0.94, 0, 0, 30)
+    instance35.Position = UDim2.new(0.03, 0, 0.7, 0)
+    instance35.BackgroundTransparency = 1
+    instance35.Text = "Current Scale: 0.65"
+    instance35.TextColor3 = v2.Gold
+    instance35.Font = Enum.Font.Code
+    instance35.TextSize = 14
+    instance33.MouseButton1Click:Connect(function()
+        f1()
+        getgenv().ResolutionScale = math.clamp(getgenv().ResolutionScale + 0.05, 0.1, 1.25)
+        instance35.Text = "Current Scale: "..string.format("%.2f", getgenv().ResolutionScale)
+    end
+)
+    instance34.MouseButton1Click:Connect(function()
+        f1()
+        getgenv().ResolutionScale = math.clamp(getgenv().ResolutionScale - 0.05, 0.1, 1.25)
+        instance35.Text = "Current Scale: "..string.format("%.2f", getgenv().ResolutionScale)
+    end
+)
+end
+do
+    autoGarpGui = Instance.new("ScreenGui")
+    autoGarpGui.Name = "AutoGarpGui"
+    autoGarpGui.ResetOnSpawn =  false
+    autoGarpGui.Enabled =  false
+    autoGarpGui.Parent = coreGui
+    local instance36 = Instance.new("Frame", autoGarpGui)
+    instance36.Size = UDim2.new(0, 280, 0, 120)
+    instance36.Position = UDim2.new(0.5,  - 140, 0.1, 0)
+    instance36.BackgroundColor3 = color3
+    instance36.Active =  true
+    instance36.Draggable =  true
+    instance36.BorderSizePixel = 0
+    Instance.new("UICorner", instance36).CornerRadius = UDim.new(0, 18)
+    local instance37 = Instance.new("UIGradient", instance36)
+    instance37.Rotation = 90
+    instance37.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0,
+        color4),
+        ColorSequenceKeypoint.new(1,
+        color3),
+    }
+)
+    instance38 = Instance.new("UIStroke", instance36)
+    instance38.Color = color6
+    instance38.Thickness = 3
+    local instance39 = Instance.new("TextLabel", instance36)
+    instance39.Size = UDim2.new(1, 0, 0.4, 0)
+    instance39.BackgroundTransparency = 1
+    instance39.Text = "AUTO GARP [Q]"
+    instance39.TextColor3 = v2.Gold
+    instance39.Font = Enum.Font.GothamBlack
+    instance39.TextSize = 28
+    local instance40 = Instance.new("TextButton", instance36)
+    instance40.Size = UDim2.new(0.9, 0, 0.45, 0)
+    instance40.Position = UDim2.new(0.05, 0, 0.5, 0)
+    instance40.BackgroundColor3 = color5
+    instance40.TextColor3 = color8
+    instance40.Font = Enum.Font.GothamBold
+    instance40.TextSize = 22
+    instance40.Text = "FOLLOW : OFF"
+    instance40.BorderSizePixel = 0
+    Instance.new("UICorner", instance40).CornerRadius = UDim.new(0, 14)
+    local instance41 = Instance.new("UIStroke", instance40)
+    instance41.Color = color6
+    instance41.Thickness = 1.5
+    local function f11()
+        if localPlayer.Character then
+            return localPlayer.Character:FindFirstChildOfClass("Tool") ~=  nil
+        end
+        return false
+    end
+    local v75 =  false
+    local function f12()
+        v75 =  false
+        instance40.Text = "FOLLOW : OFF"
+        instance40.BackgroundColor3 = color5
+        instance41.Color = color6
+        instance38.Color = color6
+    end
+    local function f13()
+        if f11() then
+            return
+        end
+        v75 =  true
+        instance40.Text = "FOLLOW : ON"
+        instance40.BackgroundColor3 = color6
+        instance41.Color = color7
+        instance38.Color = color7
+    end
+    instance40.MouseButton1Click:Connect(function()
+        if v75 then
+            f12()
+        else
+            f13()
+        end
+    end
+)
+    v7.RegisterConfigToggle("Auto Garp Follow", function()
+        return v75
+    end
+, function(p14)
+        if p14 then
+            f13()
+        else
+            f12()
+        end
+    end
+)
+    task.defer(function()
+        pcall(function()
+            contextActionService:UnbindAction("AzeerAutoGarp_Q_Hold")
+            contextActionService:BindAction("AzeerAutoGarp_Q_Hold", function(p15, p16)
+                if userInputService:GetFocusedTextBox() then
+                    return Enum.ContextActionResult.Pass
+                end
+                if p16 == Enum.UserInputState.Begin then
+                    f13()
+                elseif p16 == Enum.UserInputState.End or p16 == Enum.UserInputState.Cancel then
+                    f12()
+                end
+                return Enum.ContextActionResult.Pass
+            end
+,  false, Enum.KeyCode.Q)
+        end
+)
+    end
+)
+    runService.RenderStepped:Connect(function()
+        if v75 and f11() then
+            f12()
+        end
+        if not v75 then
+            return
+        else
+            local character5 = localPlayer.Character
+            if character5 and character5:FindFirstChild("Humanoid") then
+                local humanoid4 = character5.Humanoid
+                if humanoid4.MoveDirection.Magnitude > 0 then
+                    return
+                end
+                local humanoidRootPart5 = character5:FindFirstChild("HumanoidRootPart")
+                if humanoidRootPart5 then
+                    local huge2 = math.huge
+                    local v76 =  nil
+                    for key10, value16 in pairs(players:GetPlayers()) do
+                        if value16 ~= localPlayer and value16.Character and value16.Character:FindFirstChild("Right Arm") then
+                            local v77 =  false
+                            if localPlayer.Team and value16.Team == localPlayer.Team then
+                                v77 =  true
+                            end
+                            if value16.Character:FindFirstChildOfClass("Highlight") then
+                                v77 =  true
+                            end
+                            if not v77 then
+                                local magnitude2 =(value16.Character["Right Arm"].Position - humanoidRootPart5.Position).Magnitude
+                                if magnitude2 < huge2 then
+                                    huge2 = magnitude2
+                                    v76 = value16
+                                end
+                            end
+                        end
+                    end
+                    if v76 then
+                        local rightArm = v76.Character["Right Arm"]
+                        humanoid4:MoveTo(rightArm.Position + rightArm.CFrame.LookVector * 1.6)
+                    end
+                end
+                return
+            end
+            return
+        end
+    end
+)
+end
+if getgenv().AzeerAimbotCleanup then
+    pcall(getgenv().AzeerAimbotCleanup)
+end
+pcall(function()
+    contextActionService:UnbindAction("AzeerAimbot_E_Activate")
+end
+)
+coreGui:FindFirstChild("AzeerAimbotGui")
+coreGui:FindFirstChild("AzeerAimbotWarning")
+azeerAimbotWarning = Instance.new("ScreenGui")
+azeerAimbotWarning.Name = "AzeerAimbotWarning"
+azeerAimbotWarning.ResetOnSpawn =  false
+azeerAimbotWarning.Enabled =  false
+azeerAimbotWarning.Parent = coreGui
+instance42 = Instance.new("Frame", azeerAimbotWarning)
+instance42.Size = UDim2.new(0, 330, 0, 160)
+instance42.Position = UDim2.new(0.5,  - 165, 0.3, 0)
+do
+    instance42.BackgroundColor3 = Color3.fromRGB(18, 7, 11)
+    instance42.BorderSizePixel = 0
+    instance42.Active =  true
+    Instance.new("UICorner", instance42).CornerRadius = UDim.new(0, 10)
+    local instance43 = Instance.new("UIStroke", instance42)
+    instance43.Color = v2.Gold
+    instance43.Thickness = 2
+    local instance44 = Instance.new("TextLabel", instance42)
+    instance44.Size = UDim2.new(0.9, 0, 0.58, 0)
+    instance44.Position = UDim2.new(0.05, 0, 0.08, 0)
+    instance44.BackgroundTransparency = 1
+    instance44.Text = "( الرجاء تفعيل هاذا السكربت عند توقيت صعب عند 2.1s/2.4s\nوالتشغيل المكرر في اوقات ليس مهمه ممكن تتبند )"
+    instance44.TextColor3 = Color3.fromRGB(255, 255, 255)
+    instance44.Font = Enum.Font.GothamBold
+    instance44.TextSize = 14
+    instance44.TextWrapped =  true
+    instance44.TextXAlignment = Enum.TextXAlignment.Center
+    instance44.TextYAlignment = Enum.TextYAlignment.Center
+end
+instance45 = Instance.new("TextButton", instance42)
+instance45.Size = UDim2.new(0.36, 0, 0, 28)
+instance45.Position = UDim2.new(0.08, 0, 0.7, 0)
+instance45.BackgroundColor3 = Color3.fromRGB(120, 43, 61)
+instance45.BorderSizePixel = 0
+instance45.Text = "موافق"
+instance45.TextColor3 = Color3.fromRGB(255, 255, 255)
+instance45.Font = Enum.Font.GothamBold
+instance45.TextSize = 14
+instance45.AutoButtonColor =  false
+Instance.new("UICorner", instance45).CornerRadius = UDim.new(0, 8)
+instance46 = Instance.new("TextButton", instance42)
+instance46.Size = UDim2.new(0.36, 0, 0, 28)
+instance46.Position = UDim2.new(0.56, 0, 0.7, 0)
+instance46.BackgroundColor3 = Color3.fromRGB(72, 34, 43)
+instance46.BorderSizePixel = 0
+instance46.Text = "غير موافق"
+instance46.TextColor3 = Color3.fromRGB(255, 255, 255)
+instance46.Font = Enum.Font.GothamBold
+instance46.TextSize = 13
+instance46.AutoButtonColor =  false
+Instance.new("UICorner", instance46).CornerRadius = UDim.new(0, 8)
+v9 = workspace
+v10 =  false
+azeerAimbotGui = Instance.new("ScreenGui")
+azeerAimbotGui.Name = "AzeerAimbotGui"
+azeerAimbotGui.ResetOnSpawn =  false
+azeerAimbotGui.Enabled =  false
+azeerAimbotGui.Parent = coreGui
+instance47 = Instance.new("TextButton", v7.Main)
+instance47.Size = UDim2.new(0.45, 0, 0, 44)
+instance47.Position = UDim2.new(0.52, 0, 0.68, 0)
+instance47.Text = "AIMBOT: OFF"
+instance47.BackgroundColor3 = v2.Secondary
+instance47.TextColor3 = v2.Text
+instance47.Font = Enum.Font.GothamBold
+do
+    instance47.TextSize = 13
+    instance47.BorderSizePixel = 0
+    Instance.new("UICorner", instance47).CornerRadius = UDim.new(0, 10)
+    v11 =  false
+    instance45.MouseButton1Click:Connect(function()
+        azeerAimbotWarning.Enabled =  false
+        azeerAimbotGui.Enabled =  true
+        instance47.Text = "AIMBOT: ON"
+        instance47.TextColor3 = v2.Gold
+        instance47.BackgroundColor3 = Color3.fromRGB(92, 31, 47)
+    end
+)
+    instance46.MouseButton1Click:Connect(function()
+        azeerAimbotWarning.Enabled =  false
+        azeerAimbotGui.Enabled =  false
+        v11 =  true
+        instance47.Text = "AIMBOT: DECLINED"
+        instance47.TextColor3 = Color3.fromRGB(190, 190, 190)
+        instance47.BackgroundColor3 = Color3.fromRGB(50, 26, 33)
+    end
+)
+    instance47.MouseButton1Click:Connect(function()
+        f1()
+        if v11 then
+            return
+        end
+        if azeerAimbotGui.Enabled then
+            azeerAimbotGui.Enabled =  false
+            azeerAimbotWarning.Enabled =  false
+            instance47.Text = "AIMBOT: OFF"
+            instance47.TextColor3 = v2.Text
+            instance47.BackgroundColor3 = v2.Secondary
+        else
+            azeerAimbotWarning.Enabled =  true
+        end
+    end
+)
+    local instance48 = Instance.new("Frame", azeerAimbotGui)
+    instance48.Size = UDim2.new(0, 300, 0, 130)
+    instance48.Position = UDim2.new(0.5,  - 150, 0.3, 0)
+    instance48.BackgroundColor3 = Color3.fromRGB(30, 10, 17)
+    instance48.BorderSizePixel = 0
+    instance48.Active =  true
+    instance48.Draggable =  true
+    Instance.new("UICorner", instance48).CornerRadius = UDim.new(0, 18)
+    local instance49 = Instance.new("UIGradient", instance48)
+    instance49.Rotation = 90
+    instance49.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0,
+        Color3.fromRGB(88,
+        30,
+        46)),
+        ColorSequenceKeypoint.new(1,
+        Color3.fromRGB(30,
+        10,
+        17)),
+    }
+)
+    local instance50 = Instance.new("UIStroke", instance48)
+    instance50.Color = Color3.fromRGB(244, 105, 130)
+    instance50.Thickness = 2
+    local instance51 = Instance.new("TextLabel", instance48)
+    instance51.Size = UDim2.new(1, 0, 0.4, 0)
+    instance51.BackgroundTransparency = 1
+    instance51.Text = "A Z E E R  AIMBOT"
+    instance51.TextColor3 = Color3.fromRGB(255, 190, 202)
+    instance51.Font = Enum.Font.GothamBlack
+    instance51.TextSize = 22
+    local instance52 = Instance.new("TextButton", instance48)
+    instance52.Size = UDim2.new(0.9, 0, 0.45, 0)
+    instance52.Position = UDim2.new(0.05, 0, 0.5, 0)
+    instance52.BackgroundColor3 = Color3.fromRGB(120, 43, 61)
+    instance52.TextColor3 = Color3.fromRGB(255, 245, 247)
+    instance52.Font = Enum.Font.GothamBold
+    instance52.TextSize = 20
+    instance52.Text = "AIMBOT (1.5s) [E]"
+    instance52.BorderSizePixel = 0
+    instance52.AutoButtonColor =  false
+    Instance.new("UICorner", instance52).CornerRadius = UDim.new(0, 14)
+    local instance53 = Instance.new("UIStroke", instance52)
+    instance53.Color = Color3.fromRGB(244, 105, 130)
+    local function f14(p17)
+        if not p17 then
+            return nil
+        else
+            local huge3 = math.huge
+            local v78 =  nil
+            local character6 = localPlayer.Character
+            for index7, value17 in ipairs(v9:GetChildren()) do
+                if value17:IsA("Model") and value17 ~= character6 and string.find(string.lower(value17.Name), "bot") then
+                    local humanoidRootPart6 = value17:FindFirstChild("HumanoidRootPart")
+                    local v79 = humanoidRootPart6
+                    local humanoid5 = value17:FindFirstChildOfClass("Humanoid")
+                    if humanoidRootPart6 then
+                        v79 = humanoid5 and humanoid5.Health > 0 and not value17:FindFirstChildOfClass("Highlight")
+                    end
+                    if v79 then
+                        local magnitude3 =(humanoidRootPart6.Position - p17.Position).Magnitude
+                        if magnitude3 < huge3 then
+                            huge3 = magnitude3
+                            v78 = value17
+                        end
+                    end
+                end
+            end
+            for index8, value18 in ipairs(players:GetPlayers()) do
+                if value18 ~= localPlayer and value18.Character then
+                    local character7 = value18.Character
+                    local humanoidRootPart7 = character7:FindFirstChild("HumanoidRootPart")
+                    local humanoid6 = character7:FindFirstChildOfClass("Humanoid")
+                    if humanoidRootPart7 and humanoid6 and humanoid6.Health > 0 then
+                        if not(localPlayer.Team and value18.Team == localPlayer.Team) and not character7:FindFirstChildOfClass("Highlight") then
+                            local magnitude4 =(humanoidRootPart7.Position - p17.Position).Magnitude
+                            if magnitude4 < huge3 then
+                                huge3 = magnitude4
+                                v78 = character7
+                            end
+                        end
+                    end
+                end
+            end
+            return v78
+        end
+    end
+    instance53.Thickness = 1.5
+    local function f15()
+        local character8 = localPlayer.Character
+        if character8 and character8:FindFirstChildOfClass("Tool") then
+            return true
+        else
+            local backpack = localPlayer:FindFirstChildOfClass("Backpack")
+            if backpack then
+                local v80, v81 = v1(character8, backpack)
+                if v80 then
+                    if v81:IsA("BasePart") then
+                        local material = P[o[5]]
+                        v81.Color = P[o[4]]
+                        v81.Material = material
+                        v81.Reflectance = 0
+                        v81.CastShadow =  false
+                    elseif v81:IsA("Texture") or v81:IsA("Decal") or v81:IsA("SpecialMesh") then
+                        v81:Destroy()
+                    else
+                        if not(v81:IsA("ParticleEmitter") or v81:IsA("Trail") or v81:IsA("Beam") or v81:IsA("Fire") or v81:IsA("Smoke")) then
+                            return
+                        end
+                        v81.Enabled =  false
+                    end
+                else
+                    return
+                end
+            else
+                return backpack
+            end
+        end
+    end
+    local function f16()
+        v10 =  false
+        instance52.Text = "AIMBOT (1.5s) [E]"
+        instance52.BackgroundColor3 = Color3.fromRGB(120, 43, 61)
+    end
+    local function f17()
+        if not f15() then
+            return
+        end
+        v10 =  true
+        instance52.Text = "AIMING..."
+        instance52.BackgroundColor3 = Color3.fromRGB(244, 105, 130)
+        task.delay(1.5, function()
+            f16()
+        end
+)
+    end
+    local v82 =  false
+    pcall(function()
+        instance52.Activated:Connect(f17)
+        v82 =  true
+    end
+)
+    if not v82 then
+        instance52.MouseButton1Click:Connect(f17)
+    end
+    task.defer(function()
+        pcall(function()
+            contextActionService:BindAction("AzeerAimbot_E_Activate", function(p18, p19)
+                if p19 ~= Enum.UserInputState.Begin then
+                    return Enum.ContextActionResult.Pass
+                elseif userInputService:GetFocusedTextBox() then
+                    return Enum.ContextActionResult.Pass
+                elseif v11 then
+                    return Enum.ContextActionResult.Pass
+                else
+                    if not azeerAimbotGui.Enabled then
+                        azeerAimbotWarning.Enabled =  true
+                        return Enum.ContextActionResult.Pass
+                    end
+                    f17()
+                    return Enum.ContextActionResult.Pass
+                end
+            end
+,  false, Enum.KeyCode.E)
+        end
+)
+    end
+)
+    local connect = runService.RenderStepped:Connect(function()
+        if not v10 then
+            return
+        elseif not f15() then
+            f16()
+            return
+        else
+            local character9 = localPlayer.Character
+            local humanoid7 = character9 and character9:FindFirstChildOfClass("Humanoid")
+            local humanoidRootPart8 = character9 and character9:FindFirstChild("HumanoidRootPart")
+            if not humanoid7 or not humanoidRootPart8 or humanoid7.Health <= 0 then
+                return
+            else
+                local v83 = f14(humanoidRootPart8)
+                local torso = v83 and(v83:FindFirstChild("Torso") or v83:FindFirstChild("UpperTorso") or v83:FindFirstChild("HumanoidRootPart"))
+                local currentCamera2 = v9.CurrentCamera
+                if torso and currentCamera2 then
+                    local cframe = CFrame.new(currentCamera2.CFrame.Position, torso.Position)
+                    currentCamera2.CFrame = currentCamera2.CFrame:Lerp(cframe, 1)
+                    local vector = Vector3.new(torso.Position.X, humanoidRootPart8.Position.Y, torso.Position.Z)
+                    humanoidRootPart8.CFrame = CFrame.new(humanoidRootPart8.Position, vector) * CFrame.Angles(0, math.rad(45), 0)
+                end
+                return
+            end
+        end
+    end
+)
+    getgenv().AzeerAimbotCleanup = function()
+        f16()
+        pcall(function()
+            contextActionService:UnbindAction("AzeerAimbot_E_Activate")
+        end
+)
+        if connect then
+            pcall(function()
+                connect:Disconnect()
+            end
+)
+            connect =  nil
+        end
+        if azeerAimbotGui then
+            azeerAimbotGui:Destroy()
+        end
+        if azeerAimbotWarning then
+            azeerAimbotWarning:Destroy()
+        end
+        if instance47 then
+            instance47:Destroy()
+        end
+    end
+end
+do
+    local function f18()
+        local azeerAutoFarmSoon = coreGui:FindFirstChild("AzeerAutoFarmSoon")
+        if azeerAutoFarmSoon then
+            azeerAutoFarmSoon:Destroy()
+        end
+        local currentCamera3 = workspace.CurrentCamera
+        local azeerAutoFarmSoon2 = Instance.new("ScreenGui", coreGui)
+        azeerAutoFarmSoon2.Name = "AzeerAutoFarmSoon"
+        azeerAutoFarmSoon2.ResetOnSpawn =  false
+        local v84 = 3
+        local v85 = 1
+        local instance54 = Instance.new("Frame", azeerAutoFarmSoon2)
+        instance54.Size = UDim2.new(0, 280, 0, 150)
+        instance54.Position = UDim2.new(0.5,  - 140, 0.3, 0)
+        instance54.BackgroundColor3 = Color3.fromRGB(24, 8, 13)
+        instance54.Active =  true
+        instance54.Draggable =  true
+        Instance.new("UICorner", instance54).CornerRadius = UDim.new(0, 18)
+        local instance55 = Instance.new("ImageLabel", instance54)
+        instance55.Size = UDim2.new(1, 0, 1, 0)
+        instance55.BackgroundTransparency = 1
+        instance55.Image = "rbxassetid://16848566611"
+        instance55.ScaleType = Enum.ScaleType.Crop
+        instance55.ZIndex = 1
+        Instance.new("UICorner", instance55).CornerRadius = UDim.new(0, 18)
+        local instance56 = Instance.new("UIStroke", instance54)
+        instance56.Color = Color3.fromRGB(80, 80, 80)
+        instance56.Thickness = 2
+        local instance57 = Instance.new("TextButton", instance54)
+        instance57.Size = UDim2.new(0, 28, 0, 28)
+        instance57.Position = UDim2.new(1,  - 32, 0, 4)
+        instance57.BackgroundColor3 = Color3.fromRGB(220, 78, 105)
+        instance57.Text = "✕"
+        instance57.TextColor3 = Color3.fromRGB(255, 255, 255)
+        instance57.Font = Enum.Font.GothamBold
+        instance57.TextSize = 14
+        instance57.ZIndex = 10
+        Instance.new("UICorner", instance57).CornerRadius = UDim.new(0, 8)
+        instance57.MouseButton1Click:Connect(function()
+            azeerAutoFarmSoon2:Destroy()
+        end
+)
+        local instance58 = Instance.new("TextLabel", instance54)
+        instance58.Size = UDim2.new(1, 0, 0.4, 0)
+        instance58.BackgroundTransparency = 1
+        instance58.Text = "A Z E E R"
+        instance58.TextColor3 = Color3.fromRGB(244, 105, 130)
+        instance58.Font = Enum.Font.GothamBlack
+        instance58.TextSize = 28
+        instance58.ZIndex = 2
+        local instance59 = Instance.new("TextButton", instance54)
+        instance59.Size = UDim2.new(0, 220, 0, 56)
+        instance59.Position = UDim2.new(0.5,  - 110, 0.5, 0)
+        instance59.BackgroundColor3 = Color3.fromRGB(30, 10, 17)
+        instance59.BackgroundTransparency = 0.6
+        instance59.TextColor3 = Color3.fromRGB(255, 255, 255)
+        instance59.Font = Enum.Font.GothamBold
+        instance59.TextSize = 22
+        instance59.Text = "AUTO : OFF"
+        instance59.ZIndex = 2
+        instance59.AutoButtonColor =  false
+        Instance.new("UICorner", instance59).CornerRadius = UDim.new(0, 12)
+        local instance60 = Instance.new("UIStroke", instance59)
+        instance60.Color = Color3.fromRGB(210, 150, 163)
+        instance60.Thickness = 2
+        local instance61 = Instance.new("TextButton", instance54)
+        instance61.Size = UDim2.new(0, 30, 0, 30)
+        instance61.Position = UDim2.new(0.05, 0, 0.1, 0)
+        instance61.BackgroundColor3 = Color3.fromRGB(30, 10, 17)
+        instance61.BackgroundTransparency = 0.6
+        instance61.Text = "🔧"
+        instance61.TextSize = 14
+        instance61.TextColor3 = Color3.fromRGB(255, 255, 255)
+        instance61.ZIndex = 3
+        Instance.new("UICorner", instance61).CornerRadius = UDim.new(0, 8)
+        local instance62 = Instance.new("UIStroke", instance61)
+        instance62.Color = Color3.fromRGB(210, 150, 163)
+        instance62.Thickness = 1.2
+        tweenService:Create(instance62, TweenInfo.new(0.8, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut,  - 1,  true), {
+            Color = Color3.fromRGB(244,
+            105,
+            130)
+        }
+):Play()
+        task.spawn(function()
+            while instance61 and instance61.Parent do
+                task.wait(0.8)
+                if not(instance61 and instance61.Parent) then
+                    break
+                else
+                    local instance63 = Instance.new("Frame", instance54)
+                    instance63.Size = UDim2.new(0, 4, 0, 6)
+                    instance63.Position = UDim2.new(instance61.Position.X.Scale, instance61.Position.X.Offset + 13, instance61.Position.Y.Scale, instance61.Position.Y.Offset + 30)
+                    instance63.BackgroundColor3 = Color3.fromRGB(244, 105, 130)
+                    instance63.BorderSizePixel = 0
+                    instance63.ZIndex = 5
+                    Instance.new("UICorner", instance63).CornerRadius = UDim.new(1, 0)
+                    local create = tweenService:Create(instance63, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+                        Position = instance63.Position + UDim2.new(0,
+                        0,
+                        0,
+                        50),
+                        BackgroundTransparency = 1,
+                    }
+)
+                    create:Play()
+                    create.Completed:Connect(function()
+                        instance63:Destroy()
+                    end
+)
+                end
+            end
+        end
+)
+        local instance64 = Instance.new("Frame", instance54)
+        instance64.Size = UDim2.new(0, 100, 0, 70)
+        instance64.Position = UDim2.new( - 0.38, 0, 0.05, 0)
+        instance64.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+        instance64.BackgroundTransparency = 0.3
+        instance64.Visible =  false
+        instance64.ZIndex = 4
+        Instance.new("UICorner", instance64).CornerRadius = UDim.new(0, 10)
+        Instance.new("UIStroke", instance64).Color = Color3.fromRGB(180, 105, 122)
+        local instance65 = Instance.new("TextLabel", instance64)
+        instance65.Size = UDim2.new(0.5, 0, 0.4, 0)
+        instance65.Position = UDim2.new(0, 5, 0.1, 0)
+        instance65.Text = "Dist:"
+        instance65.TextColor3 = Color3.fromRGB(255, 255, 255)
+        instance65.Font = Enum.Font.GothamBold
+        instance65.TextSize = 11
+        instance65.BackgroundTransparency = 1
+        instance65.ZIndex = 5
+        local instance66 = Instance.new("TextBox", instance64)
+        instance66.Size = UDim2.new(0.4, 0, 0.3, 0)
+        instance66.Position = UDim2.new(0.5, 0, 0.15, 0)
+        instance66.Text = tostring(v84)
+        instance66.TextColor3 = Color3.fromRGB(255, 255, 255)
+        instance66.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        instance66.Font = Enum.Font.GothamBold
+        instance66.TextSize = 11
+        instance66.ZIndex = 5
+        Instance.new("UICorner", instance66).CornerRadius = UDim.new(0, 4)
+        local instance67 = Instance.new("TextLabel", instance64)
+        instance67.Size = UDim2.new(0.5, 0, 0.4, 0)
+        instance67.Position = UDim2.new(0, 5, 0.5, 0)
+        instance67.Text = "Cam:"
+        instance67.TextColor3 = Color3.fromRGB(255, 255, 255)
+        instance67.Font = Enum.Font.GothamBold
+        instance67.TextSize = 11
+        instance67.BackgroundTransparency = 1
+        instance67.ZIndex = 5
+        local instance68 = Instance.new("TextBox", instance64)
+        instance68.Size = UDim2.new(0.4, 0, 0.3, 0)
+        instance68.Position = UDim2.new(0.5, 0, 0.55, 0)
+        instance68.Text = tostring(v85)
+        instance68.TextColor3 = Color3.fromRGB(255, 255, 255)
+        instance68.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        instance68.Font = Enum.Font.GothamBold
+        instance68.TextSize = 11
+        instance68.ZIndex = 5
+        Instance.new("UICorner", instance68).CornerRadius = UDim.new(0, 4)
+        instance66.FocusLost:Connect(function()
+            local v86 = tonumber(instance66.Text)
+            if v86 then
+                v84 = v86
+            else
+                instance66.Text = tostring(v84)
+            end
+        end
+)
+        instance68.FocusLost:Connect(function()
+            local v87 = tonumber(instance68.Text)
+            if v87 then
+                v85 = v87
+            else
+                instance68.Text = tostring(v85)
+            end
+        end
+)
+        instance61.MouseButton1Click:Connect(function()
+            instance64.Visible =  not instance64.Visible
+        end
+)
+        local v88 =  false
+        instance59.MouseButton1Click:Connect(function()
+            v88 =  not v88
+            if v88 then
+                instance59.Text = "AUTO : ON"
+                instance59.TextColor3 = Color3.fromRGB(244, 105, 130)
+                instance60.Color = Color3.fromRGB(244, 105, 130)
+                instance56.Color = Color3.fromRGB(244, 105, 130)
+            else
+                instance59.Text = "AUTO : OFF"
+                instance59.TextColor3 = Color3.fromRGB(255, 255, 255)
+                instance60.Color = Color3.fromRGB(150, 150, 150)
+                instance56.Color = Color3.fromRGB(80, 80, 80)
+            end
+        end
+)
+        local function f19(p20)
+            local huge4 = math.huge
+            local v89
+            for index9, value19 in ipairs(players:GetPlayers()) do
+                if value19 ~= localPlayer and value19.Character then
+                    local character10 = value19.Character
+                    local humanoidRootPart9 = character10:FindFirstChild("HumanoidRootPart")
+                    local humanoid8 = character10:FindFirstChildOfClass("Humanoid")
+                    if humanoidRootPart9 and humanoid8 and humanoid8.Health > 0 then
+                        if not(localPlayer.Team and value19.Team == localPlayer.Team) and not character10:FindFirstChildOfClass("Highlight") then
+                            local magnitude5 =(humanoidRootPart9.Position - p20.Position).Magnitude
+                            if magnitude5 < huge4 then
+                                v89 = character10
+                                huge4 = magnitude5
+                            end
+                        end
+                    end
+                end
+            end
+            return v89
+        end
+        local v90 = 0
+        local v91, connect2
+        connect2 = runService.Heartbeat:Connect(function()
+            if not azeerAutoFarmSoon2 or not azeerAutoFarmSoon2.Parent then
+                connect2:Disconnect()
+                return
+            elseif not v88 then
+                return
+            else
+                local character11 = localPlayer.Character
+                if not character11 then
+                    return
+                else
+                    local humanoid9 = character11:FindFirstChildOfClass("Humanoid")
+                    local humanoidRootPart10 = character11:FindFirstChild("HumanoidRootPart")
+                    if not humanoid9 or not humanoidRootPart10 then
+                        return
+                    else
+                        local v92 = f19(humanoidRootPart10)
+                        if not v92 then
+                            return
+                        else
+                            local humanoidRootPart11 = v92:FindFirstChild("HumanoidRootPart")
+                            if not humanoidRootPart11 then
+                                return
+                            else
+                                local unit =(humanoidRootPart10.Position - humanoidRootPart11.Position).Unit
+                                local lookVector = currentCamera3.CFrame.LookVector
+                                local lerp2 = unit:Lerp(Vector3.new(lookVector.X, 0, lookVector.Z).Unit, v85)
+                                local v93 = humanoidRootPart11.Position + lerp2.Unit * v84
+                                local v94 = tick()
+                                if not v91 or(v93 - v91).Magnitude > 0.5 or v94 - v90 > 0.5 then
+                                    humanoid9:MoveTo(v93)
+                                    v91 = v93
+                                    v90 = v94
+                                end
+                                return
+                            end
+                        end
+                    end
+                end
+            end
+        end
+)
+    end
+    local v95 =({
+        klkkklkllklkoollkllk =  true,
+        [""] =  true,
+        ["7avii"] =  true,
+        ["7avii00"] =  true,
+        [""] =  true,
+        ["1QZ"] =  true,
+        [""] =  true,
+        [""] =  true,
+        [""] =  true,
+        [""] =  true,
+        [""] =  true,
+        [""] =  true,
+        [""] =  true,
+        [""] =  true,
+        [""] =  true,
+    }
+)[localPlayer.Name] ==  true
+    v7.RegisterConfigToggle("Soon Auto Farm Window", function()
+        return coreGui:FindFirstChild("AzeerAutoFarmSoon") ~=  nil
+    end
+, function(p21)
+        local azeerAutoFarmSoon3 = coreGui:FindFirstChild("AzeerAutoFarmSoon")
+        if p21 then
+            if not v95 then
+                error("Soon Auto Farm is not unlocked.")
+            end
+            if not azeerAutoFarmSoon3 then
+                f18()
+            end
+        elseif azeerAutoFarmSoon3 then
+            azeerAutoFarmSoon3:Destroy()
+        end
+    end
+)
+    local instance69 = Instance.new("TextButton", v7.Main)
+    instance69.Size = UDim2.new(0.94, 0, 0, 42)
+    instance69.Position = UDim2.new(0.03, 0, 0.02, 0)
+    instance69.Font = Enum.Font.GothamBlack
+    instance69.TextSize = 15
+    instance69.ZIndex = 10
+    Instance.new("UICorner", instance69).CornerRadius = UDim.new(0, 10)
+    local instance70 = Instance.new("UIStroke", instance69)
+    instance70.Thickness = 2
+    if v95 then
+        instance69.Text = "🔓  AUTO FARM"
+        instance69.BackgroundColor3 = Color3.fromRGB(75, 27, 39)
+        instance69.TextColor3 = Color3.fromRGB(255, 170, 185)
+        instance69.Active =  true
+        instance69.AutoButtonColor =  false
+        instance70.Color = Color3.fromRGB(255, 170, 185)
+        task.spawn(function()
+            local v96 =  true
+            while instance69 and instance69.Parent do
+                local color9 = v96 and Color3.fromRGB(255, 170, 185) or Color3.fromRGB(180, 55, 80)
+                local color10 = v96 and Color3.fromRGB(92, 31, 47) or Color3.fromRGB(38, 12, 20)
+                tweenService:Create(instance70, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                    Color = color9
+                }
+):Play()
+                tweenService:Create(instance69, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                    BackgroundColor3 = color10
+                }
+):Play()
+                v96 =  not v96
+                task.wait(0.9)
+            end
+        end
+)
+        instance69.MouseButton1Click:Connect(function()
+            f1()
+            f18()
+        end
+)
+    else
+        instance69.Text = "🔒  for 1000 ROBUX"
+        instance69.BackgroundColor3 = Color3.fromRGB(55, 21, 30)
+        instance69.TextColor3 = Color3.fromRGB(255, 205, 215)
+        instance69.Active =  false
+        instance69.AutoButtonColor =  false
+        instance70.Color = Color3.fromRGB(255, 205, 215)
+        task.spawn(function()
+            local v97 =  true
+            while instance69 and instance69.Parent do
+                local color11 = v97 and Color3.fromRGB(255, 220, 230) or Color3.fromRGB(205, 95, 120)
+                local color12 = v97 and Color3.fromRGB(80, 28, 42) or Color3.fromRGB(28, 9, 15)
+                tweenService:Create(instance70, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                    Color = color11
+                }
+):Play()
+                tweenService:Create(instance69, TweenInfo.new(0.9, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                    BackgroundColor3 = color12
+                }
+):Play()
+                v97 =  not v97
+                task.wait(0.9)
+            end
+        end
+)
+    end
+end
+instance71 = Instance.new("TextButton", v7.Main)
+instance71.Size = UDim2.new(0.94, 0, 0, 44)
+instance71.Position = UDim2.new(0.03, 0, 0.24, 0)
+instance71.Text = "OPEN AUTO INTERFACE"
+instance71.BackgroundColor3 = v2.Secondary
+instance71.TextColor3 = v2.Gold
+instance71.Font = Enum.Font.GothamBold
+instance71.TextSize = 13
+Instance.new("UICorner", instance71).CornerRadius = UDim.new(0, 10)
+coreGui:FindFirstChild("AzeerAutoInterfaceWarning")
+v12 =  false
+azeerAutoInterfaceWarning = Instance.new("ScreenGui")
+do
+    azeerAutoInterfaceWarning.Name = "AzeerAutoInterfaceWarning"
+    azeerAutoInterfaceWarning.ResetOnSpawn =  false
+    azeerAutoInterfaceWarning.Enabled =  false
+    azeerAutoInterfaceWarning.Parent = coreGui
+    local instance72 = Instance.new("Frame", azeerAutoInterfaceWarning)
+    instance72.Size = UDim2.new(0, 330, 0, 150)
+    instance72.Position = UDim2.new(0.5,  - 165, 0.3, 0)
+    instance72.BackgroundColor3 = Color3.fromRGB(18, 7, 11)
+    instance72.BorderSizePixel = 0
+    instance72.Active =  true
+    Instance.new("UICorner", instance72).CornerRadius = UDim.new(0, 10)
+    local instance73 = Instance.new("UIStroke", instance72)
+    instance73.Color = v2.Gold
+    instance73.Thickness = 2
+    local instance74 = Instance.new("TextLabel", instance72)
+    instance74.Size = UDim2.new(0.9, 0, 0.58, 0)
+    instance74.Position = UDim2.new(0.05, 0, 0.08, 0)
+    instance74.BackgroundTransparency = 1
+    instance74.Text = "( السكربت مكشوف ويعتبر قديم الرجاء عدم تشغيله دائما )"
+    instance74.TextColor3 = Color3.fromRGB(255, 255, 255)
+    instance74.Font = Enum.Font.GothamBold
+    instance74.TextSize = 15
+    instance74.TextWrapped =  true
+    instance74.TextXAlignment = Enum.TextXAlignment.Center
+    instance74.TextYAlignment = Enum.TextYAlignment.Center
+    local instance75 = Instance.new("TextButton", instance72)
+    instance75.Size = UDim2.new(0.42, 0, 0, 30)
+    instance75.Position = UDim2.new(0.29, 0, 0.7, 0)
+    instance75.BackgroundColor3 = Color3.fromRGB(120, 43, 61)
+    instance75.BorderSizePixel = 0
+    instance75.Text = "انا متفهم"
+    instance75.TextColor3 = Color3.fromRGB(255, 255, 255)
+    instance75.Font = Enum.Font.GothamBold
+    instance75.TextSize = 14
+    instance75.AutoButtonColor =  false
+    Instance.new("UICorner", instance75).CornerRadius = UDim.new(0, 8)
+    instance75.MouseButton1Click:Connect(function()
+        f1()
+        v12 =  true
+        azeerAutoInterfaceWarning.Enabled =  false
+        azeerFollowerGui.Enabled =  true
+        instance71.Text = "CLOSE AUTO INTERFACE"
+    end
+)
+end
+do
+    instance71.MouseButton1Click:Connect(function()
+        f1()
+        if not v12 then
+            azeerAutoInterfaceWarning.Enabled =  true
+            return
+        end
+        azeerFollowerGui.Enabled =  not azeerFollowerGui.Enabled
+        instance71.Text = azeerFollowerGui.Enabled and "CLOSE AUTO INTERFACE" or "OPEN AUTO INTERFACE"
+    end
+)
+    v7.RegisterConfigToggle("Auto Interface", function()
+        return azeerFollowerGui.Enabled ==  true
+    end
+, function(p22)
+        if p22 then
+            if not v12 then
+                azeerAutoInterfaceWarning.Enabled =  true
+                return
+            end
+            azeerAutoInterfaceWarning.Enabled =  false
+            azeerFollowerGui.Enabled =  true
+        else
+            azeerAutoInterfaceWarning.Enabled =  false
+            azeerFollowerGui.Enabled =  false
+        end
+        instance71.Text = azeerFollowerGui.Enabled and "CLOSE AUTO INTERFACE" or "OPEN AUTO INTERFACE"
+    end
+)
+    local instance76 = Instance.new("TextButton", v7.Main)
+    instance76.Size = UDim2.new(0.45, 0, 0, 44)
+    instance76.Position = UDim2.new(0.03, 0, 0.45, 0)
+    instance76.Text = "EXPAND (+)"
+    instance76.BackgroundColor3 = v2.Secondary
+    instance76.TextColor3 = v2.Gold
+    instance76.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", instance76).CornerRadius = UDim.new(0, 10)
+    instance76.MouseButton1Click:Connect(function()
+        f1()
+        local size = instance10.Size
+        instance10:TweenSize(UDim2.new(0, size.X.Offset + 10, 0, size.Y.Offset + 10), "Out", "Back", 0.3,  true)
+    end
+)
+    local instance77 = Instance.new("TextButton", v7.Main)
+    instance77.Size = UDim2.new(0.45, 0, 0, 44)
+    instance77.Position = UDim2.new(0.52, 0, 0.45, 0)
+    instance77.Text = "SHRINK (-)"
+    instance77.BackgroundColor3 = v2.Secondary
+    instance77.TextColor3 = v2.Gold
+    instance77.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", instance77).CornerRadius = UDim.new(0, 10)
+    instance77.MouseButton1Click:Connect(function()
+        f1()
+        local size2 = instance10.Size
+        instance10:TweenSize(UDim2.new(0, math.max(size2.X.Offset - 10, 50), 0, math.max(size2.Y.Offset - 10, 20)), "Out", "Back", 0.3,  true)
+    end
+)
+end
+do
+    local instance78 = Instance.new("TextButton", v7.Main)
+    instance78.Size = UDim2.new(0.45, 0, 0, 44)
+    instance78.Position = UDim2.new(0.03, 0, 0.68, 0)
+    instance78.Text = "AUTO GARP [Q]: OFF"
+    instance78.BackgroundColor3 = v2.Secondary
+    instance78.TextColor3 = v2.Text
+    instance78.Font = Enum.Font.GothamBold
+    instance78.TextSize = 13
+    Instance.new("UICorner", instance78).CornerRadius = UDim.new(0, 10)
+    instance78.MouseButton1Click:Connect(function()
+        f1()
+        autoGarpGui.Enabled =  not autoGarpGui.Enabled
+        instance78.Text = autoGarpGui.Enabled and "AUTO GARP [Q]: ON" or "AUTO GARP [Q]: OFF"
+        instance78.TextColor3 = autoGarpGui.Enabled and v2.Gold or v2.Text
+        instance78.BackgroundColor3 = autoGarpGui.Enabled and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+    v7.RegisterConfigToggle("Auto Garp Window", function()
+        return autoGarpGui.Enabled ==  true
+    end
+, function(p23)
+        autoGarpGui.Enabled = p23 ==  true
+        instance78.Text = autoGarpGui.Enabled and "AUTO GARP [Q]: ON" or "AUTO GARP [Q]: OFF"
+        instance78.TextColor3 = autoGarpGui.Enabled and v2.Gold or v2.Text
+        instance78.BackgroundColor3 = autoGarpGui.Enabled and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+    instance79 = Instance.new("ScrollingFrame", v7.Misc)
+end
+do
+    instance79.Size = UDim2.new(0.96, 0, 0.9, 0)
+    instance79.Position = UDim2.new(0.02, 0, 0.05, 0)
+    instance79.BackgroundTransparency = 1
+    instance79.CanvasSize = UDim2.new(0, 0, 3.2, 0)
+    instance79.ScrollBarThickness = 2
+    instance79.ScrollBarImageColor3 = v2.Gold
+    pcall(function()
+        local v98 =  false
+        local raycastParams = RaycastParams.new()
+        if not pcall(function()
+            raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+        end
+) then
+            raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
+        end
+        raycastParams.IgnoreWater =  true
+        local instance80
+        local function f20()
+            local v99 = instance80
+            v99.Text = v98 and "WALL SLIDE: ON" or "WALL SLIDE: OFF"
+            local v100 = instance80
+            v100.TextColor3 = v98 and v2.Gold or v2.Text
+            local v101 = instance80
+            v101.BackgroundColor3 = v98 and Color3.fromRGB(92, 31, 47) or v2.Secondary
+        end
+        local v102
+        local function f21()
+            if v102 then
+                pcall(function()
+                    v102:Destroy()
+                end
+)
+                v102 =  nil
+            end
+        end
+        local connect3, connect4, f22, f23, f24
+        local function f25()
+            v98 =  true
+            if localPlayer.Character then
+                f23(localPlayer.Character)
+            end
+            connect3 = localPlayer.CharacterAdded:Connect(function(character12)
+                pcall(function()
+                    task.wait(0.15)
+                    if v98 then
+                        f23(character12)
+                    end
+                end
+)
+            end
+)
+            connect4 = runService.Heartbeat:Connect(function()
+                local v103, v104 = pcall(f24)
+                if not v103 then
+                    f22()
+                    warn("[Azeer Wall Slide] stopped safely: "..tostring(v104))
+                end
+            end
+)
+            f20()
+        end
+        local waitForChild
+        local function f26()
+            f21()
+            if waitForChild and waitForChild.Parent then
+                waitForChild.AutoRotate =  true
+            end
+        end
+        local function f27(p24)
+            local vector2 = Vector3.new(p24.X, 0, p24.Z)
+            return vector2.Magnitude > 0.001 and vector2.Unit or Vector3.new(0, 0, 0)
+        end
+        local function f28(p25, p26)
+            return p25.Magnitude > 0.001 and p25.Unit or p26
+        end
+        local v105, waitForChild2, slideAtt
+        function f23(p27)
+            f26()
+            if slideAtt then
+                pcall(function()
+                    slideAtt:Destroy()
+                end
+)
+                slideAtt =  nil
+            end
+            v105 = p27
+            waitForChild = p27:WaitForChild("Humanoid", 5)
+            waitForChild2 = p27:WaitForChild("HumanoidRootPart", 5)
+            if not waitForChild or not waitForChild2 then
+                return
+            end
+            for index10, value20 in ipairs({
+                "SlideVel",
+                "SlideAtt"
+            }
+) do
+                local findFirstChild2 = waitForChild2:FindFirstChild(value20)
+                if findFirstChild2 then
+                    pcall(function()
+                        findFirstChild2:Destroy()
+                    end
+)
+                end
+            end
+            slideAtt = Instance.new("Attachment")
+            slideAtt.Name = "SlideAtt"
+            slideAtt.Parent = waitForChild2
+        end
+        local function f29(p28)
+            if not waitForChild2 then
+                return nil
+            else
+                local v106 = {
+                }
+                local vector3 = Vector3.new( - p28.Z, 0, p28.X)
+                local position4 = waitForChild2.Position
+                local v107 = {
+                    position4,
+                    position4 + vector3 * 0.25,
+                    position4 - vector3 * 0.25
+                }
+                for index11, value21 in ipairs({
+                    p28,
+                    f28(p28 + vector3 * 0.25,
+                    p28),
+                    f28(p28 - vector3 * 0.25,
+                    p28),
+                }
+) do
+                    local raycast = workspace:Raycast(v107[index11], value21 * 1.35, raycastParams)
+                    if raycast and raycast.Instance and raycast.Instance:IsA("BasePart") and raycast.Instance.CanCollide and math.abs(raycast.Normal.Y) <= 0.3 then
+                        local v108 = f27(raycast.Normal)
+                        if v108.Magnitude > 0.001 and p28:Dot(v108) <  - 0.01 then
+                            table.insert(v106, v108)
+                        end
+                    end
+                end
+                if # v106 == 0 then
+                    return nil
+                else
+                    local vector4 = Vector3.new(0, 0, 0)
+                    for index12, value22 in ipairs(v106) do
+                        vector4 = vector4 + value22
+                    end
+                    return f28(vector4, v106[1])
+                end
+            end
+        end
+        local function f30()
+            if not waitForChild2 or not slideAtt then
+                return nil
+            else
+                local v109, v110 = pcall(function()
+                    local slideVel = Instance.new("LinearVelocity")
+                    slideVel.Name = "SlideVel"
+                    slideVel.Attachment0 = slideAtt
+                    slideVel.RelativeTo = Enum.ActuatorRelativeTo.World
+                    slideVel.VelocityConstraintMode = Enum.VelocityConstraintMode.Vector
+                    slideVel.MaxForce = 100000
+                    pcall(function()
+                        slideVel.ForceLimitsEnabled =  true
+                        slideVel.ForceLimitMode = Enum.ForceLimitMode.PerAxis
+                        slideVel.MaxAxesForce = Vector3.new(100000, 0, 100000)
+                    end
+)
+                    slideVel.Parent = waitForChild2
+                    return slideVel
+                end
+)
+                if v109 and v110 then
+                    return v110
+                else
+                    local v111, v112 = pcall(function()
+                        local slideVel2 = Instance.new("BodyVelocity")
+                        slideVel2.Name = "SlideVel"
+                        slideVel2.MaxForce = Vector3.new(100000, 0, 100000)
+                        slideVel2.P = 1250
+                        slideVel2.Parent = waitForChild2
+                        return slideVel2
+                    end
+)
+                    return v111 and v112 or nil
+                end
+            end
+        end
+        function f24()
+            if not v98 then
+                return
+            end
+            if not v105 or not v105.Parent or not waitForChild or waitForChild.Health <= 0 or not waitForChild2 or not waitForChild2.Parent then
+                f26()
+                return
+            else
+                local v113 = {
+                }
+                for index13, value23 in ipairs(players:GetPlayers()) do
+                    if value23.Character then
+                        table.insert(v113, value23.Character)
+                    end
+                end
+                raycastParams.FilterDescendantsInstances = v113
+                local v114 = f27(waitForChild.MoveDirection)
+                if v114.Magnitude < 0.08 then
+                    f26()
+                    return
+                else
+                    local v115 = f29(v114)
+                    if not v115 then
+                        f26()
+                        return
+                    else
+                        local velocity = waitForChild2.Velocity
+                        local v116 = waitForChild.FloorMaterial ~= Enum.Material.Air and 0
+                        local v117 = v116
+                        v117 = v116 or math.min(velocity.Y, 1.5)
+                        if math.abs(v117 - velocity.Y) > 0.01 then
+                            waitForChild2.Velocity = Vector3.new(velocity.X, v117, velocity.Z)
+                        end
+                        if not v102 or not v102.Parent then
+                            v102 = f30()
+                        end
+                        if not v102 then
+                            return
+                        else
+                            local v118 = f27(v114 - v115 * v114:Dot(v115))
+                            local v119 = v118.Magnitude > 0.05 and v118
+                            local v120 = v119
+                            v120 = v119 or f28(Vector3.new( - v115.Z, 0, v115.X), Vector3.new(1, 0, 0))
+                            local vector5 = Vector3.new((v120 * waitForChild.WalkSpeed + v115 * 0.01).X, 0,(v120 * waitForChild.WalkSpeed + v115 * 0.01).Z)
+                            if v102:IsA("LinearVelocity") then
+                                v102.VectorVelocity = vector5
+                            elseif v102:IsA("BodyVelocity") then
+                                v102.Velocity = vector5
+                            end
+                            waitForChild.AutoRotate =  true
+                            return
+                        end
+                    end
+                end
+            end
+        end
+        local function f31()
+            if connect3 then
+                pcall(function()
+                    connect3:Disconnect()
+                end
+)
+                connect3 =  nil
+            end
+            if connect4 then
+                pcall(function()
+                    connect4:Disconnect()
+                end
+)
+                connect4 =  nil
+            end
+        end
+        function f22()
+            v98 =  false
+            f31()
+            f26()
+            if slideAtt then
+                pcall(function()
+                    slideAtt:Destroy()
+                end
+)
+                slideAtt =  nil
+            end
+            v105 =  nil
+            waitForChild =  nil
+            waitForChild2 =  nil
+            f20()
+        end
+        instance80 = Instance.new("TextButton", instance79)
+        instance80.Size = UDim2.new(0.98, 0, 0, 45)
+        instance80.Position = UDim2.new(0, 0, 0.02, 0)
+        instance80.Text = "WALL SLIDE: OFF"
+        instance80.BackgroundColor3 = v2.Secondary
+        instance80.TextColor3 = v2.Text
+        instance80.Font = Enum.Font.GothamBold
+        instance80.TextSize = 13
+        instance80.BorderSizePixel = 0
+        Instance.new("UICorner", instance80).CornerRadius = UDim.new(0, 10)
+        instance80.MouseButton1Click:Connect(function()
+            f1()
+            local v121, v122 = pcall(function()
+                if v98 then
+                    f22()
+                else
+                    f25()
+                end
+            end
+)
+            if not v121 then
+                f22()
+                warn("[Azeer Wall Slide] failed safely: "..tostring(v122))
+            end
+        end
+)
+        v7.RegisterConfigToggle("Wall Slide", function()
+            return v98 ==  true
+        end
+, function(p29)
+            local v123 = p29 ==  true
+            if v123 ~= v98 then
+                if v123 then
+                    f25()
+                else
+                    f22()
+                end
+            end
+            f20()
+        end
+)
+    end
+)
+    local instance81 = Instance.new("TextBox", instance79)
+    instance81.Size = UDim2.new(0.48, 0, 0, 45)
+    instance81.Position = UDim2.new(0, 0, 0.15, 0)
+    instance81.PlaceholderText = "Ping (ms)"
+    instance81.Text = "200"
+    instance81.BackgroundColor3 = v2.Secondary
+    instance81.TextColor3 = v2.Gold
+    instance81.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", instance81).CornerRadius = UDim.new(0, 10)
+    instance81:GetPropertyChangedSignal("Text"):Connect(function()
+        local v124 = tonumber(instance81.Text)
+        if v124 then
+            if v124 > 350 then
+                instance81.Text = "350"
+                v124 = 350
+            end
+            _G.AzeerPing = v124
+        end
+    end
+)
+    local instance82 = Instance.new("TextButton", instance79)
+    instance82.Size = UDim2.new(0.48, 0, 0, 45)
+    instance82.Position = UDim2.new(0.5, 5, 0.15, 0)
+    instance82.Text = "GHOST: OFF"
+    instance82.BackgroundColor3 = v2.Secondary
+    instance82.TextColor3 = v2.Text
+    instance82.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", instance82).CornerRadius = UDim.new(0, 10)
+    instance82.MouseButton1Click:Connect(function()
+        f1()
+        v5 =  not v5
+        _G.AzeerPing = math.clamp(tonumber(instance81.Text) or 200, 0, 350)
+        if v5 then
+            f6()
+        elseif partRghvrWjAi2yg then
+            partRghvrWjAi2yg:Destroy()
+        end
+        instance82.Text = v5 and "GHOST: ON" or "GHOST: OFF"
+        instance82.TextColor3 = v5 and v2.Gold or v2.Text
+        instance82.BackgroundColor3 = v5 and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+    v7.RegisterConfigToggle("Ghost", function()
+        return v5 ==  true
+    end
+, function(p30)
+        v5 = p30 ==  true
+        _G.AzeerPing = math.clamp(tonumber(instance81.Text) or 200, 0, 350)
+        if v5 then
+            f6()
+        elseif partRghvrWjAi2yg then
+            partRghvrWjAi2yg:Destroy()
+        end
+        instance82.Text = v5 and "GHOST: ON" or "GHOST: OFF"
+        instance82.TextColor3 = v5 and v2.Gold or v2.Text
+        instance82.BackgroundColor3 = v5 and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+end
+do
+    local instance83 = Instance.new("TextButton", instance79)
+    instance83.Size = UDim2.new(0.98, 0, 0, 45)
+    instance83.Position = UDim2.new(0, 0, 0.28, 0)
+    instance83.Text = "TURN BOOST: OFF"
+    instance83.BackgroundColor3 = v2.Secondary
+    instance83.TextColor3 = v2.Text
+    instance83.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", instance83).CornerRadius = UDim.new(0, 10)
+    instance83.MouseButton1Click:Connect(function()
+        f1()
+        v4 =  not v4
+        instance83.Text = v4 and "TURN BOOST: ON" or "TURN BOOST: OFF"
+        instance83.TextColor3 = v4 and v2.Gold or v2.Text
+        instance83.BackgroundColor3 = v4 and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+    v7.RegisterConfigToggle("Turn Boost", function()
+        return v4 ==  true
+    end
+, function(p31)
+        v4 = p31 ==  true
+        instance83.Text = v4 and "TURN BOOST: ON" or "TURN BOOST: OFF"
+        instance83.TextColor3 = v4 and v2.Gold or v2.Text
+        instance83.BackgroundColor3 = v4 and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+    local instance84 = Instance.new("TextButton", instance79)
+    instance84.Size = UDim2.new(0.98, 0, 0, 45)
+    instance84.Position = UDim2.new(0, 0, 0.41, 0)
+    instance84.Text = "AZEER ULTIMATE (OPTIMIZATION)"
+    instance84.BackgroundColor3 = v2.Secondary
+    instance84.TextColor3 = v2.Gold
+    instance84.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", instance84).CornerRadius = UDim.new(0, 10)
+    local connect5
+    instance84.MouseButton1Click:Connect(function()
+        if v3 then
+            return
+        else
+            v3 =  true
+            f1()
+            settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+            lighting.GlobalShadows =  false
+            lighting.FogEnd = 100000
+            lighting.FogStart = 100000
+            for index14, value24 in ipairs(lighting:GetChildren()) do
+                if value24:IsA("BloomEffect") or value24:IsA("BlurEffect") or value24:IsA("SunRaysEffect") or value24:IsA("DepthOfFieldEffect") or value24:IsA("ColorCorrectionEffect") then
+                    value24:Destroy()
+                end
+            end
+            local instance85 = Instance.new("ColorCorrectionEffect", lighting)
+            instance85.Brightness = 0.04
+            instance85.Contrast = 0.12
+            instance85.Saturation = 0.2
+            local instance86 = Instance.new("BloomEffect", lighting)
+            instance86.Intensity = 0.25
+            instance86.Size = 20
+            instance86.Threshold = 0.95
+            for index15, value25 in ipairs(workspace:GetDescendants()) do
+                if value25:IsA("Texture") or value25:IsA("Decal") then
+                    value25:Destroy()
+                elseif value25:IsA("BasePart") then
+                    value25.Material = Enum.Material.SmoothPlastic
+                    value25.Reflectance = 0
+                    value25.CastShadow =  false
+                elseif value25:IsA("Tool") then
+                    f4(value25)
+                end
+            end
+            if not connect5 then
+                connect5 = workspace.DescendantAdded:Connect(function(descendant2)
+                    task.defer(function()
+                        if not descendant2 or not descendant2.Parent then
+                            return
+                        end
+                        if descendant2:IsA("Explosion") then
+                            descendant2.Visible =  false
+                            descendant2:Destroy()
+                        elseif descendant2:IsA("Tool") then
+                            f4(descendant2)
+                        elseif descendant2:IsA("Texture") or descendant2:IsA("Decal") then
+                            descendant2:Destroy()
+                        elseif descendant2:IsA("BasePart") then
+                            descendant2.Material = Enum.Material.SmoothPlastic
+                            descendant2.Reflectance = 0
+                            descendant2.CastShadow =  false
+                        end
+                    end
+)
+                end
+)
+            end
+            return
+        end
+    end
+)
+end
+do
+    if getgenv().AzeerNoClipConns then
+        for key11, value26 in pairs(getgenv().AzeerNoClipConns) do
+            local v125 = value26
+            pcall(function()
+                v125:Disconnect()
+            end
+)
+        end
+    end
+    getgenv().AzeerNoClipConns = {
+    }
+    if getgenv().AzeerNoClipEnabled ==  nil then
+        getgenv().AzeerNoClipEnabled =  false
+    end
+    local function f32(p32, canCollide)
+        if not p32 then
+            return
+        end
+        for index16, value27 in ipairs(p32:GetDescendants()) do
+            if value27:IsA("BasePart") and value27.Name ~= "HumanoidRootPart" then
+                value27.CanCollide = canCollide
+            end
+        end
+    end
+    local function f33(p33)
+        if p33 == localPlayer then
+            return
+        else
+            local function f34(p34)
+                task.wait(0.3)
+                if getgenv().AzeerNoClipEnabled then
+                    f32(p34,  false)
+                end
+                local connect6 = p34.DescendantAdded:Connect(function(descendant3)
+                    if getgenv().AzeerNoClipEnabled and descendant3:IsA("BasePart") and descendant3.Name ~= "HumanoidRootPart" then
+                        descendant3.CanCollide =  false
+                    end
+                end
+)
+                table.insert(getgenv().AzeerNoClipConns, connect6)
+            end
+            if p33.Character then
+                f34(p33.Character)
+            end
+            local v126 = getgenv()
+            local characterAdded = p33.CharacterAdded
+            table.insert(v126.AzeerNoClipConns, characterAdded:Connect(f34))
+            return
+        end
+    end
+    for index17, value28 in ipairs(players:GetPlayers()) do
+        f33(value28)
+    end
+    local v127 = getgenv()
+    local playerAdded = players.PlayerAdded
+    table.insert(v127.AzeerNoClipConns, playerAdded:Connect(f33))
+    task.spawn(function()
+        while true do
+            task.wait(0.3)
+            if getgenv().AzeerNoClipEnabled then
+                for index18, value29 in ipairs(players:GetPlayers()) do
+                    if value29 ~= localPlayer and value29.Character then
+                        f32(value29.Character,  false)
+                    end
+                end
+            end
+        end
+    end
+)
+    local instance87 = Instance.new("TextButton", instance79)
+    instance87.Size = UDim2.new(0.98, 0, 0, 45)
+    instance87.Position = UDim2.new(0, 0, 0.54, 0)
+    instance87.Text = getgenv().AzeerNoClipEnabled and "BODY NOCLIP: ON" or "BODY NOCLIP: OFF"
+    instance87.BackgroundColor3 = getgenv().AzeerNoClipEnabled and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    instance87.TextColor3 = getgenv().AzeerNoClipEnabled and v2.Gold or v2.Text
+    instance87.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", instance87).CornerRadius = UDim.new(0, 10)
+    instance87.MouseButton1Click:Connect(function()
+        f1()
+        getgenv().AzeerNoClipEnabled =  not getgenv().AzeerNoClipEnabled
+        if not getgenv().AzeerNoClipEnabled then
+            for index19, value30 in ipairs(players:GetPlayers()) do
+                if value30 ~= localPlayer and value30.Character then
+                    f32(value30.Character,  true)
+                end
+            end
+        end
+        instance87.Text = getgenv().AzeerNoClipEnabled and "BODY NOCLIP: ON" or "BODY NOCLIP: OFF"
+        instance87.TextColor3 = getgenv().AzeerNoClipEnabled and v2.Gold or v2.Text
+        instance87.BackgroundColor3 = getgenv().AzeerNoClipEnabled and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+    v7.RegisterConfigToggle("Body NoClip", function()
+        return getgenv().AzeerNoClipEnabled ==  true
+    end
+, function(p35)
+        getgenv().AzeerNoClipEnabled = p35 ==  true
+        if not getgenv().AzeerNoClipEnabled then
+            for index20, value31 in ipairs(players:GetPlayers()) do
+                if value31 ~= localPlayer and value31.Character then
+                    f32(value31.Character,  true)
+                end
+            end
+        end
+        instance87.Text = getgenv().AzeerNoClipEnabled and "BODY NOCLIP: ON" or "BODY NOCLIP: OFF"
+        instance87.TextColor3 = getgenv().AzeerNoClipEnabled and v2.Gold or v2.Text
+        instance87.BackgroundColor3 = getgenv().AzeerNoClipEnabled and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+end
+do
+    local function f35(p36)
+        if not p36 then
+            return
+        else
+            local rightLeg = p36:FindFirstChild("Right Leg")
+            if not rightLeg then
+                return
+            end
+            for index21, value32 in ipairs(rightLeg:GetChildren()) do
+                if value32:IsA("SpecialMesh") then
+                    value32:Destroy()
+                end
+            end
+            return
+        end
+    end
+    local v128 =  false
+    local function f36(p37)
+        local waitForChild3 = p37:WaitForChild("Right Leg", 5)
+        if not waitForChild3 then
+            return
+        else
+            for index22, value33 in ipairs(waitForChild3:GetChildren()) do
+                if value33:IsA("SpecialMesh") or value33:IsA("CharacterMesh") then
+                    value33:Destroy()
+                end
+            end
+            local specialMesh = Instance.new("SpecialMesh")
+            specialMesh.MeshType = Enum.MeshType.FileMesh
+            specialMesh.MeshId = "rbxassetid://101851696"
+            specialMesh.TextureId = "rbxassetid://101851254"
+            specialMesh.Scale = Vector3.new(1, 1, 1)
+            specialMesh.Parent = waitForChild3
+            return
+        end
+    end
+    local instance88 = Instance.new("TextButton", instance79)
+    instance88.Size = UDim2.new(0.98, 0, 0, 45)
+    instance88.Position = UDim2.new(0, 0, 0.67, 0)
+    instance88.Text = "KROBLOX LEGS (Not Fe): OFF"
+    instance88.BackgroundColor3 = v2.Secondary
+    instance88.TextColor3 = v2.Text
+    instance88.Font = Enum.Font.GothamBold
+    instance88.TextSize = 13
+    Instance.new("UICorner", instance88).CornerRadius = UDim.new(0, 10)
+    local connect7
+    instance88.MouseButton1Click:Connect(function()
+        f1()
+        v128 =  not v128
+        if v128 then
+            if localPlayer.Character then
+                f36(localPlayer.Character)
+            end
+            connect7 = localPlayer.CharacterAdded:Connect(function(character13)
+                if v128 then
+                    f36(character13)
+                end
+            end
+)
+        else
+            if connect7 then
+                connect7:Disconnect()
+                connect7 =  nil
+            end
+            f35(localPlayer.Character)
+        end
+        instance88.Text = v128 and "KROBLOX LEGS (Not Fe): ON" or "KROBLOX LEGS (Not Fe): OFF"
+        instance88.TextColor3 = v128 and v2.Gold or v2.Text
+        instance88.BackgroundColor3 = v128 and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+    v7.RegisterConfigToggle("Kroblox Legs", function()
+        return v128 ==  true
+    end
+, function(p38)
+        local v129 = p38 ==  true
+        if v129 ~= v128 then
+            v128 = v129
+            if v128 then
+                if localPlayer.Character then
+                    f36(localPlayer.Character)
+                end
+                connect7 = localPlayer.CharacterAdded:Connect(function(character14)
+                    if v128 then
+                        f36(character14)
+                    end
+                end
+)
+            else
+                if connect7 then
+                    connect7:Disconnect()
+                    connect7 =  nil
+                end
+                f35(localPlayer.Character)
+            end
+        end
+        instance88.Text = v128 and "KROBLOX LEGS (Not Fe): ON" or "KROBLOX LEGS (Not Fe): OFF"
+        instance88.TextColor3 = v128 and v2.Gold or v2.Text
+        instance88.BackgroundColor3 = v128 and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+end
+do
+    local function f37(p39)
+        local v130 = {
+            MeshType = Enum.MeshType.Head,
+            MeshId = "",
+            TextureId = "",
+            Scale = Vector3.new(1.25,
+            1.25,
+            1.25),
+            Offset = Vector3.new(0,
+            0,
+            0),
+            FaceTexture =  nil,
+        }
+        for index23, value34 in ipairs(p39:GetChildren()) do
+            if value34:IsA("SpecialMesh") then
+                v130.MeshType = value34.MeshType
+                v130.MeshId = value34.MeshId
+                v130.TextureId = value34.TextureId
+                v130.Scale = value34.Scale
+                v130.Offset = value34.Offset
+            elseif value34:IsA("Decal") then
+                v130.FaceTexture = value34.Texture
+            end
+        end
+        return v130
+    end
+    local v131 =  false
+    local v132 = {
+    }
+    local function f38(p40)
+        if not p40 then
+            return
+        else
+            local head = p40:FindFirstChild("Head")
+            if not head then
+                return
+            else
+                head.Transparency = 0
+                head.CanCollide =  true
+                for index24, value35 in ipairs(head:GetChildren()) do
+                    if value35:IsA("SpecialMesh") then
+                        value35:Destroy()
+                    end
+                end
+                local v133 = v132[p40]
+                if v133 then
+                    local specialMesh2 = Instance.new("SpecialMesh")
+                    specialMesh2.MeshType = v133.MeshType
+                    specialMesh2.MeshId = v133.MeshId
+                    specialMesh2.TextureId = v133.TextureId
+                    specialMesh2.Scale = v133.Scale
+                    specialMesh2.Offset = v133.Offset
+                    specialMesh2.Parent = head
+                    v132[p40] =  nil
+                else
+                    local specialMesh3 = Instance.new("SpecialMesh")
+                    specialMesh3.MeshType = Enum.MeshType.Head
+                    specialMesh3.Scale = Vector3.new(1.25, 1.25, 1.25)
+                    specialMesh3.Parent = head
+                end
+                local faceTexture = v133 and v133.FaceTexture or "rbxasset://textures/face.png"
+                if faceTexture and faceTexture ~= "" then
+                    local decal = Instance.new("Decal")
+                    decal.Texture = faceTexture
+                    decal.Parent = head
+                end
+                return
+            end
+        end
+    end
+    local function f39(p41)
+        local waitForChild4 = p41:WaitForChild("Head", 5)
+        if not waitForChild4 then
+            return
+        else
+            v132[p41] = f37(waitForChild4)
+            waitForChild4.Transparency = 1
+            waitForChild4.CanCollide =  false
+            local decal2 = waitForChild4:FindFirstChildOfClass("Decal")
+            if decal2 then
+                decal2:Destroy()
+            end
+            for index25, value36 in ipairs(waitForChild4:GetChildren()) do
+                if value36:IsA("SpecialMesh") or value36:IsA("CharacterMesh") then
+                    value36:Destroy()
+                end
+            end
+            local specialMesh4 = Instance.new("SpecialMesh")
+            specialMesh4.MeshType = Enum.MeshType.FileMesh
+            specialMesh4.MeshId = "rbxassetid://1095708"
+            specialMesh4.Scale = Vector3.new(0.001, 0.001, 0.001)
+            specialMesh4.Parent = waitForChild4
+            return
+        end
+    end
+    local instance89 = Instance.new("TextButton", instance79)
+    instance89.Size = UDim2.new(0.98, 0, 0, 45)
+    instance89.Position = UDim2.new(0, 0, 0.8, 0)
+    instance89.Text = "HEADLESS HEAD (Not Fe): OFF"
+    instance89.BackgroundColor3 = v2.Secondary
+    instance89.TextColor3 = v2.Text
+    instance89.Font = Enum.Font.GothamBold
+    instance89.TextSize = 13
+    Instance.new("UICorner", instance89).CornerRadius = UDim.new(0, 10)
+    local connect8
+    instance89.MouseButton1Click:Connect(function()
+        f1()
+        v131 =  not v131
+        if v131 then
+            task.spawn(function()
+                f39(localPlayer.Character)
+            end
+)
+            connect8 = localPlayer.CharacterAdded:Connect(function(character15)
+                if v131 then
+                    v132[character15] =  nil
+                    task.spawn(function()
+                        f39(character15)
+                    end
+)
+                end
+            end
+)
+        else
+            if connect8 then
+                connect8:Disconnect()
+                connect8 =  nil
+            end
+            task.spawn(function()
+                f38(localPlayer.Character)
+            end
+)
+        end
+        instance89.Text = v131 and "HEADLESS HEAD (Not Fe): ON" or "HEADLESS HEAD (Not Fe): OFF"
+        instance89.TextColor3 = v131 and v2.Gold or v2.Text
+        instance89.BackgroundColor3 = v131 and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+    v7.RegisterConfigToggle("Headless Head", function()
+        return v131 ==  true
+    end
+, function(p42)
+        local v134 = p42 ==  true
+        if v134 ~= v131 then
+            v131 = v134
+            if v131 then
+                task.spawn(function()
+                    f39(localPlayer.Character)
+                end
+)
+                connect8 = localPlayer.CharacterAdded:Connect(function(character16)
+                    if v131 then
+                        v132[character16] =  nil
+                        task.spawn(function()
+                            f39(character16)
+                        end
+)
+                    end
+                end
+)
+            else
+                if connect8 then
+                    connect8:Disconnect()
+                    connect8 =  nil
+                end
+                task.spawn(function()
+                    f38(localPlayer.Character)
+                end
+)
+            end
+        end
+        instance89.Text = v131 and "HEADLESS HEAD (Not Fe): ON" or "HEADLESS HEAD (Not Fe): OFF"
+        instance89.TextColor3 = v131 and v2.Gold or v2.Text
+        instance89.BackgroundColor3 = v131 and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+end
+instance90 = Instance.new("TextButton", instance79)
+instance90.Size = UDim2.new(0.98, 0, 0, 45)
+instance90.Position = UDim2.new(0, 0, 0.93, 0)
+instance90.Text = "MOVEMENT ASSIST: OFF"
+instance90.BackgroundColor3 = v2.Secondary
+instance90.TextColor3 = v2.Text
+instance90.Font = Enum.Font.GothamBold
+instance90.TextSize = 13
+Instance.new("UICorner", instance90).CornerRadius = UDim.new(0, 10)
+instance91 = Instance.new("TextButton", instance79)
+instance91.Size = UDim2.new(0.98, 0, 0, 45)
+instance91.Position = UDim2.new(0, 0, 1.06, 0)
+do
+    instance91.Text = "CAMERA SHAKE: OFF"
+    instance91.BackgroundColor3 = v2.Secondary
+    instance91.TextColor3 = v2.Text
+    instance91.Font = Enum.Font.GothamBold
+    instance91.TextSize = 13
+    Instance.new("UICorner", instance91).CornerRadius = UDim.new(0, 10)
+    local color13 = Color3.fromRGB(30, 10, 17)
+    color14 = Color3.fromRGB(88, 30, 46)
+    color15 = Color3.fromRGB(120, 43, 61)
+    color16 = Color3.fromRGB(244, 105, 130)
+    color17 = Color3.fromRGB(255, 190, 202)
+    color18 = Color3.fromRGB(255, 245, 247)
+    azeerMovementAssist = Instance.new("ScreenGui")
+    azeerMovementAssist.Name = "AzeerMovementAssist"
+    azeerMovementAssist.ResetOnSpawn =  false
+    azeerMovementAssist.Enabled =  false
+    azeerMovementAssist.Parent = coreGui
+    instance92 = Instance.new("Frame", azeerMovementAssist)
+    instance92.Size = UDim2.new(0, 320, 0, 180)
+    instance92.Position = UDim2.new(0.5,  - 160, 0.12, 0)
+    instance92.BackgroundColor3 = color13
+    instance92.BorderSizePixel = 0
+    instance92.Active =  true
+    instance92.Draggable =  true
+    Instance.new("UICorner", instance92).CornerRadius = UDim.new(0, 18)
+    local instance93 = Instance.new("UIGradient", instance92)
+    instance93.Rotation = 90
+    instance93.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0,
+        color14),
+        ColorSequenceKeypoint.new(1,
+        color13),
+    }
+)
+end
+do
+    local instance94 = Instance.new("UIStroke", instance92)
+    instance94.Color = color16
+    instance94.Thickness = 2
+    local instance95 = Instance.new("TextLabel", instance92)
+    instance95.Size = UDim2.new(1, 0, 0, 40)
+    instance95.BackgroundTransparency = 1
+    instance95.Text = "MOVEMENT  ASSIST"
+    instance95.TextColor3 = color17
+    instance95.Font = Enum.Font.GothamBlack
+    instance95.TextSize = 19
+    instance96 = Instance.new("TextLabel", instance92)
+    instance96.Size = UDim2.new(1,  - 24, 0, 24)
+end
+instance96.Position = UDim2.new(0, 12, 0, 42)
+instance96.BackgroundTransparency = 1
+instance96.Text = "Status:  OFF"
+instance96.TextColor3 = color18
+instance96.Font = Enum.Font.GothamBold
+instance96.TextSize = 13
+instance97 = Instance.new("TextLabel", instance92)
+instance97.Size = UDim2.new(1,  - 24, 0, 22)
+instance97.Position = UDim2.new(0, 12, 0, 66)
+instance97.BackgroundTransparency = 1
+instance97.Text = "Target:  None"
+instance97.TextColor3 = color17
+instance97.Font = Enum.Font.GothamSemibold
+instance97.TextSize = 12
+instance97.TextTruncate = Enum.TextTruncate.AtEnd
+instance98 = Instance.new("TextButton", instance92)
+instance98.Size = UDim2.new(1,  - 24, 0, 38)
+instance98.Position = UDim2.new(0, 12, 0, 96)
+instance98.BackgroundColor3 = color15
+instance98.Text = "ASSIST  OFF"
+instance98.TextColor3 = color18
+instance98.Font = Enum.Font.GothamBlack
+instance98.TextSize = 16
+instance98.BorderSizePixel = 0
+do
+    instance98.AutoButtonColor =  false
+    Instance.new("UICorner", instance98).CornerRadius = UDim.new(0, 12)
+    local instance99 = Instance.new("UIStroke", instance98)
+    instance99.Color = color16
+    instance99.Thickness = 1.5
+    instance100 = Instance.new("TextButton", instance92)
+    instance100.Size = UDim2.new(0.48,  - 12, 0, 32)
+    instance100.Position = UDim2.new(0, 12, 0, 140)
+    instance100.BackgroundColor3 = color14
+    instance100.Text = "POWER:  35%"
+    instance100.TextColor3 = color18
+    instance100.Font = Enum.Font.GothamBlack
+end
+do
+    instance100.TextSize = 13
+    instance100.BorderSizePixel = 0
+    instance100.AutoButtonColor =  false
+    Instance.new("UICorner", instance100).CornerRadius = UDim.new(0, 10)
+    local instance101 = Instance.new("UIStroke", instance100)
+    instance101.Color = color16
+    instance101.Thickness = 1.2
+    local instance102 = Instance.new("TextButton", instance92)
+    instance102.Size = UDim2.new(0.48,  - 12, 0, 32)
+    instance102.Position = UDim2.new(0.52, 0, 0, 140)
+    instance102.BackgroundColor3 = color14
+    instance102.Text = "RANGE:  10"
+    instance102.TextColor3 = color18
+    instance102.Font = Enum.Font.GothamBlack
+    instance102.TextSize = 13
+    instance102.BorderSizePixel = 0
+    instance102.AutoButtonColor =  false
+    Instance.new("UICorner", instance102).CornerRadius = UDim.new(0, 10)
+    local instance103 = Instance.new("UIStroke", instance102)
+    instance103.Color = color16
+    instance103.Thickness = 1.2
+    local v135 =  false
+    local v136 = {
+        0.35,
+        0.4,
+        0.45,
+        0.475
+    }
+    local v137 = 1
+    local v138 = {
+        10,
+        20,
+        30
+    }
+    local v139 = 1
+    local function f40()
+        local v140 = v136[v137] * 100
+        local color19
+        if v140 == 35 then
+            color19 = Color3.fromRGB(230, 145, 160)
+        elseif v140 == 40 then
+            color19 = Color3.fromRGB(255, 175, 190)
+        elseif v140 == 45 then
+            color19 = Color3.fromRGB(244, 105, 130)
+        else
+            color19 = Color3.fromRGB(175, 55, 80)
+        end
+        instance100.Text = "POWER:  "..tostring(v140).. "%"
+        instance100.BackgroundColor3 = color19
+        instance101.Color = color19
+        instance102.Text = "RANGE:  "..v138[v139]
+        if v135 then
+            instance98.Text = "ASSIST  ON"
+            instance96.Text = "Status:  ON"
+            instance98.BackgroundColor3 = color16
+        else
+            instance98.Text = "ASSIST  OFF"
+            instance96.Text = "Status:  OFF"
+            instance97.Text = "Target:  None"
+            instance98.BackgroundColor3 = color15
+        end
+    end
+    local function f41(p43, p44, p45)
+        if not p43 or not p44 or not p45 then
+            return false
+        else
+            local raycastParams2 = RaycastParams.new()
+            raycastParams2.FilterType = Enum.RaycastFilterType.Exclude
+            raycastParams2.FilterDescendantsInstances = {
+                localPlayer.Character
+            }
+            raycastParams2.IgnoreWater =  true
+            local v141 = p43.Position + Vector3.new(0, 1.5, 0)
+            local v142 = {
+                p45.Position,
+                p45.Position + Vector3.new(0,
+                1.5,
+                0)
+            }
+            local head2 = p44:FindFirstChild("Head")
+            if head2 then
+                table.insert(v142, head2.Position)
+            end
+            for index26, value37 in ipairs(v142) do
+                local raycast2 = workspace:Raycast(v141, value37 - v141, raycastParams2)
+                if raycast2 and raycast2.Instance and raycast2.Instance:IsDescendantOf(p44) then
+                    return true
+                end
+            end
+            return false
+        end
+    end
+    instance98.MouseButton1Click:Connect(function()
+        v135 =  not v135
+        f40()
+    end
+)
+    instance100.MouseButton1Click:Connect(function()
+        v137 = v137 %  # v136 + 1
+        f40()
+    end
+)
+    instance102.MouseButton1Click:Connect(function()
+        v139 = v139 %  # v138 + 1
+        f40()
+    end
+)
+    local function f42(p46, p47)
+        local v143 = p47
+        local v144
+        for index27, value38 in ipairs(players:GetPlayers()) do
+            if value38 ~= localPlayer and value38.Character then
+                local character17 = value38.Character
+                local humanoidRootPart12 = character17:FindFirstChild("HumanoidRootPart")
+                local humanoid10 = character17:FindFirstChildOfClass("Humanoid")
+                if humanoidRootPart12 and humanoid10 and humanoid10.Health > 0 then
+                    local v145 =  false
+                    if localPlayer.Team and value38.Team == localPlayer.Team then
+                        v145 =  true
+                    end
+                    if character17:FindFirstChildOfClass("Highlight") then
+                        v145 =  true
+                    end
+                    if not v145 and f41(p46, character17, humanoidRootPart12) then
+                        local magnitude6 =(humanoidRootPart12.Position - p46.Position).Magnitude
+                        if magnitude6 < v143 then
+                            v143 = magnitude6
+                            v144 = value38
+                        end
+                    end
+                end
+            end
+        end
+        return v144
+    end
+    runService.RenderStepped:Connect(function()
+        if not v135 then
+            return
+        else
+            local character18 = localPlayer.Character
+            if not character18 then
+                return
+            elseif not character18:FindFirstChildOfClass("Tool") then
+                instance97.Text = "Target:  Waiting for Tool"
+                return
+            else
+                local humanoid11 = character18:FindFirstChildOfClass("Humanoid")
+                local v146 =  not humanoid11
+                local humanoidRootPart13 = character18:FindFirstChild("HumanoidRootPart")
+                if v146 or not humanoidRootPart13 or humanoid11.Health <= 0 then
+                    return
+                elseif humanoid11.MoveDirection.Magnitude <= 0 then
+                    instance97.Text = "Target:  Waiting Movement"
+                    return
+                else
+                    local v147 = f42(humanoidRootPart13, 10)
+                    if not v147 or not v147.Character then
+                        instance97.Text = "Target:  None"
+                        return
+                    else
+                        local humanoidRootPart14 = v147.Character:FindFirstChild("HumanoidRootPart")
+                        if not humanoidRootPart14 then
+                            return
+                        else
+                            instance97.Text = "Target:  "..v147.Name
+                            local v148 = humanoidRootPart14.Position - humanoidRootPart13.Position
+                            local vector6 = Vector3.new(v148.X, 0, v148.Z)
+                            if vector6.Magnitude <= 0.1 then
+                                return
+                            else
+                                local v149 = humanoid11.MoveDirection.Unit * 0.65 + vector6.Unit * 0.35
+                                if v149.Magnitude > 0 then
+                                    humanoid11:Move(v149.Unit,  false)
+                                end
+                                return
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+)
+    f40()
+    v7.RegisterConfigToggle("Movement Assist", function()
+        return v135 ==  true
+    end
+, function(p48)
+        v135 = p48 ==  true
+        f40()
+    end
+)
+end
+instance90.MouseButton1Click:Connect(function()
+    f1()
+    azeerMovementAssist.Enabled =  not azeerMovementAssist.Enabled
+    instance90.Text = azeerMovementAssist.Enabled and "MOVEMENT ASSIST: ON" or "MOVEMENT ASSIST: OFF"
+    instance90.TextColor3 = azeerMovementAssist.Enabled and v2.Gold or v2.Text
+    instance90.BackgroundColor3 = azeerMovementAssist.Enabled and Color3.fromRGB(92, 31, 47) or v2.Secondary
+end
+)
+v7.RegisterConfigToggle("Movement Assist Window", function()
+    return azeerMovementAssist.Enabled ==  true
+end
+, function(p49)
+    azeerMovementAssist.Enabled = p49 ==  true
+    instance90.Text = azeerMovementAssist.Enabled and "MOVEMENT ASSIST: ON" or "MOVEMENT ASSIST: OFF"
+    instance90.TextColor3 = azeerMovementAssist.Enabled and v2.Gold or v2.Text
+    instance90.BackgroundColor3 = azeerMovementAssist.Enabled and Color3.fromRGB(92, 31, 47) or v2.Secondary
+end
+)
+v13 = 0.04
+v14 = 0.4
+color20 = Color3.fromRGB(244, 105, 130)
+color21 = Color3.fromRGB(72, 34, 43)
+v15 = {
+}
+for match in("-433,-1247,-1362,-789,-1128,-756,-683,371,949,1488,1049,365,-865,-1529,-1627,-1199,-927,-735,-213,829,2108,2198,1141,4,-1266,-2034,-1353,-811,-732,-374,748,2096,2863,1610,687,-476,-1413,-1596,-1158,-842,-917,316,1333,2232,1665,1132,-593,-1265,-1422,-937,-1020,-381,-21,547,2311,2871,753,147,-596,-1403,-1110,-889,-514,-159,0,819,2337,1511,910,-700,-1611,-1585,-768,-719,-410,-75,-1,1219,1248,538,-1,-1141,-1084,-1135,-840,-496,-77,-1,1669,2519,1747,384,-1132,-1769,-1526,-1251,-874,-874,262,1156,2514,2803,1727,352,-1,-2698,-1773,-1172,-739,-774,101,431,77,-238,-745,-706,-609,-342,651,1160,2161,3306,2362,546,-1,-2269,-2316,-1575,-1003,-571,-301,0,435,912,398,0,-567,-1218,-1162,-850,-897,94,1076,1498,2391,868,145,-752,-2286,-2065,-1277,-878,-348,-1,1246,3095,2718,741,-1,-1303,-2180,-1849,-1146,-692,-857,1111,1862,3438,1603,244,-1330,-2259,-1900,-1443,-1019,-497,-106,892,2945,3263,1518,193,-1543,-2228,-2274,-1373,-1261,-695,199,1403,2642,2438,856,69,-940,-1652,-1532,-1125,-764,-345,988,2016,2861,2128,647,-954,-1746,-1924,-1205,-1130,-570,-632,1393,1825,2915,503,73,-899,-1745,-1532,-1194,-641,-204,-1,1279,2991,1845,676,0,-1333,-1988,-1681,-1283,-758,-309,-1,1162,3010,3523,1190"):gmatch("([^,]+)") do
+    local v150 = tonumber(match)
+    if v150 then
+        table.insert(v15, v150 / 10000 * 0.5)
+    end
+end
+azeerShakeGui = Instance.new("ScreenGui")
+azeerShakeGui.Name = "AzeerShakeGui"
+azeerShakeGui.ResetOnSpawn =  false
+azeerShakeGui.Enabled =  false
+do
+    azeerShakeGui.Parent = coreGui
+    instance104 = Instance.new("Frame", azeerShakeGui)
+    instance104.Size = UDim2.new(0, 260, 0, 110)
+    instance104.Position = UDim2.new(0.5,  - 130, 0.45, 0)
+    instance104.BackgroundColor3 = color3
+    instance104.BorderSizePixel = 0
+    instance104.Active =  true
+    instance104.Draggable =  true
+    Instance.new("UICorner", instance104).CornerRadius = UDim.new(0, 15)
+    local instance105 = Instance.new("UIGradient", instance104)
+    instance105.Rotation = 90
+    instance105.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0,
+        color4),
+        ColorSequenceKeypoint.new(1,
+        color3),
+    }
+)
+end
+do
+    local instance106 = Instance.new("UIStroke", instance104)
+    instance106.Color = color6
+    instance106.Thickness = 2
+    instance107 = Instance.new("TextLabel", instance104)
+    instance107.Size = UDim2.new(1,  - 90, 0, 36)
+    instance107.Position = UDim2.new(0, 10, 0, 8)
+    instance107.BackgroundTransparency = 1
+    instance107.Text = "SHAKE: Waiting..."
+    instance107.TextColor3 = color8
+    instance107.Font = Enum.Font.GothamBlack
+    instance107.TextSize = 15
+    instance107.TextXAlignment = Enum.TextXAlignment.Left
+end
+instance108 = Instance.new("TextButton", instance104)
+instance108.Size = UDim2.new(0, 68, 0, 32)
+instance108.Position = UDim2.new(1,  - 76, 0, 10)
+instance108.BackgroundColor3 = color21
+instance108.Text = "OFF"
+instance108.TextColor3 = color8
+instance108.Font = Enum.Font.GothamBold
+instance108.TextSize = 13
+instance108.AutoButtonColor =  false
+instance108.BorderSizePixel = 0
+Instance.new("UICorner", instance108).CornerRadius = UDim.new(0, 8)
+instance109 = Instance.new("UIStroke", instance108)
+do
+    instance109.Color = color6
+    instance109.Thickness = 1
+    local instance110 = Instance.new("Frame", instance104)
+    instance110.Size = UDim2.new(0.88, 0, 0, 6)
+    instance110.Position = UDim2.new(0.06, 0, 0, 50)
+    instance110.BackgroundColor3 = color4
+    instance110.BorderSizePixel = 0
+    Instance.new("UICorner", instance110).CornerRadius = UDim.new(0, 3)
+    instance111 = Instance.new("Frame", instance110)
+    instance111.Size = UDim2.new(0, 0, 1, 0)
+    instance111.BackgroundColor3 = color6
+    instance111.BorderSizePixel = 0
+end
+do
+    Instance.new("UICorner", instance111).CornerRadius = UDim.new(0, 3)
+    local instance112 = Instance.new("TextLabel", instance104)
+    instance112.Size = UDim2.new(0.88, 0, 0, 28)
+    instance112.Position = UDim2.new(0.06, 0, 0, 60)
+    instance112.BackgroundTransparency = 1
+    instance112.Text = "Mode: Auto — move camera left/right"
+    instance112.TextColor3 = color7
+    instance112.Font = Enum.Font.Gotham
+    instance112.TextSize = 11
+    instance112.TextWrapped =  true
+    instance112.TextXAlignment = Enum.TextXAlignment.Left
+    local instance113 = Instance.new("TextLabel", instance104)
+    instance113.Size = UDim2.new(0.88, 0, 0, 20)
+    instance113.Position = UDim2.new(0.06, 0, 0, 87)
+    instance113.BackgroundTransparency = 1
+    instance113.Text = ""
+    instance113.TextColor3 = color6
+    instance113.Font = Enum.Font.GothamBold
+    instance113.TextSize = 12
+    local function f43()
+        local character19 = localPlayer.Character
+        local backpack2 = localPlayer:FindFirstChildOfClass("Backpack")
+        return character19 and character19:FindFirstChildOfClass("Tool") ~=  nil or backpack2 and backpack2:FindFirstChildOfClass("Tool") ~=  nil
+    end
+    instance113.TextXAlignment = Enum.TextXAlignment.Left
+    local v151 =  false
+    local v152 = 0
+    local v153 = 1
+    local v154 =  false
+    local function f44()
+        if v154 then
+            instance108.Text = "ON"
+            instance108.BackgroundColor3 = color20
+            instance109.Color = color6
+            instance112.Text = "Mode: Auto — move camera left/right"
+            instance112.TextColor3 = color7
+        else
+            instance108.Text = "OFF"
+            instance108.BackgroundColor3 = color21
+            instance109.Color = Color3.fromRGB(100, 100, 100)
+            instance112.Text = "Mode: Disabled"
+            instance112.TextColor3 = Color3.fromRGB(220, 135, 150)
+        end
+    end
+    local connect9
+    local function f45()
+        if not v151 then
+            return
+        end
+        v151 =  false
+        if connect9 then
+            connect9:Disconnect()
+            connect9 =  nil
+        end
+        instance107.Text = "SHAKE: Waiting..."
+        instance107.TextColor3 = color8
+        instance113.Text = ""
+        v152 = 0
+        v153 = 1
+    end
+    local function f46()
+        if v151 then
+            return
+        end
+        v151 =  true
+        instance107.Text = "SHAKE: Active ✓"
+        instance107.TextColor3 = color7
+        instance113.Text = "● Active"
+        connect9 = runService.RenderStepped:Connect(function(delta2)
+            if not f43() then
+                f45()
+                return
+            else
+                local character20 = localPlayer.Character
+                local humanoidRootPart15 = character20 and character20:FindFirstChild("HumanoidRootPart")
+                if not humanoidRootPart15 or userInputService.MouseBehavior ~= Enum.MouseBehavior.LockCenter then
+                    return
+                else
+                    v152 = v152 + delta2 * 2
+                    v153 = math.floor(v152 * 60) + 1
+                    if v153 >  # v15 then
+                        v153 = 1
+                        v152 = 0
+                    end
+                    local position5 = humanoidRootPart15.CFrame.Position
+                    workspace.CurrentCamera.CFrame = CFrame.new(position5) * CFrame.Angles(0, v15[v153] * 3, 0) * CFrame.new( - position5) * workspace.CurrentCamera.CFrame
+                    return
+                end
+            end
+        end
+)
+    end
+    instance108.MouseButton1Click:Connect(function()
+        f1()
+        v154 =  not v154
+        f44()
+        if not v154 then
+            f45()
+            instance111.Size = UDim2.new(0, 0, 1, 0)
+            instance107.Text = "SHAKE: Disabled"
+            instance107.TextColor3 = Color3.fromRGB(220, 135, 150)
+        else
+            instance107.Text = "SHAKE: Waiting..."
+            instance107.TextColor3 = color8
+        end
+    end
+)
+    local v155 = 0
+    local v156 = {
+    }
+    local v157 = 0
+    local v158
+    runService.RenderStepped:Connect(function(delta3)
+        if not v154 then
+            return
+        else
+            local camera, camera2, camera3 = workspace.CurrentCamera.CFrame:ToEulerAnglesYXZ()
+            if not f43() then
+                if v151 then
+                    f45()
+                end
+                v156 = {
+                }
+                v155 = 0
+                instance111.Size = UDim2.new(0, 0, 1, 0)
+                instance111.BackgroundColor3 = color5
+                instance107.Text = "SHAKE: Waiting for Tool..."
+                instance107.TextColor3 = color8
+                v158 = camera2
+                return
+            elseif v158 ==  nil then
+                v158 = camera2
+                return
+            else
+                local v159 = camera2 - v158
+                if v159 > math.pi then
+                    v159 = v159 - 2 * math.pi
+                end
+                if v159 <  - math.pi then
+                    v159 = v159 + 2 * math.pi
+                end
+                if math.abs(v159) > v13 then
+                    v157 = tick()
+                    if v155 ~= 0 and v159 * v155 < 0 then
+                        table.insert(v156, tick())
+                    end
+                    local count3 = 0
+                    v155 = v159
+                    local v160 = tick()
+                    local v161 = {
+                    }
+                    for index28, value39 in ipairs(v156) do
+                        if v160 - value39 <= v14 then
+                            count3 = count3 + 1
+                            table.insert(v161, value39)
+                        end
+                    end
+                    v156 = v161
+                    local v162 = math.min(count3 / 3, 1)
+                    instance111.Size = UDim2.new(v162, 0, 1, 0)
+                    instance111.BackgroundColor3 = v162 >= 1 and color6 or color5
+                    if count3 >= 3 and not v151 then
+                        f46()
+                    end
+                elseif v151 and tick() - v157 >= 0.5 then
+                    f45()
+                    v156 = {
+                    }
+                    instance111.Size = UDim2.new(0, 0, 1, 0)
+                    instance111.BackgroundColor3 = color5
+                end
+                v158 = camera2
+                return
+            end
+        end
+    end
+)
+    f44()
+    v7.RegisterConfigToggle("Camera Shake", function()
+        return v154 ==  true
+    end
+, function(p50)
+        v154 = p50 ==  true
+        f44()
+        if not v154 then
+            f45()
+            instance111.Size = UDim2.new(0, 0, 1, 0)
+            instance107.Text = "SHAKE: Disabled"
+            instance107.TextColor3 = Color3.fromRGB(220, 135, 150)
+        else
+            instance107.Text = "SHAKE: Waiting..."
+            instance107.TextColor3 = color8
+        end
+    end
+)
+    instance91.MouseButton1Click:Connect(function()
+        f1()
+        azeerShakeGui.Enabled =  not azeerShakeGui.Enabled
+        if not azeerShakeGui.Enabled then
+            f45()
+            v154 =  false
+            f44()
+            instance111.Size = UDim2.new(0, 0, 1, 0)
+            instance107.Text = "SHAKE: Waiting..."
+            instance107.TextColor3 = color8
+        end
+        instance91.Text = azeerShakeGui.Enabled and "CAMERA SHAKE: ON" or "CAMERA SHAKE: OFF"
+        instance91.TextColor3 = azeerShakeGui.Enabled and v2.Gold or v2.Text
+        instance91.BackgroundColor3 = azeerShakeGui.Enabled and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+    v7.RegisterConfigToggle("Camera Shake Window", function()
+        return azeerShakeGui.Enabled ==  true
+    end
+, function(p51)
+        azeerShakeGui.Enabled = p51 ==  true
+        if not azeerShakeGui.Enabled then
+            f45()
+            v154 =  false
+            f44()
+            instance111.Size = UDim2.new(0, 0, 1, 0)
+            instance107.Text = "SHAKE: Waiting..."
+            instance107.TextColor3 = color8
+        end
+        instance91.Text = azeerShakeGui.Enabled and "CAMERA SHAKE: ON" or "CAMERA SHAKE: OFF"
+        instance91.TextColor3 = azeerShakeGui.Enabled and v2.Gold or v2.Text
+        instance91.BackgroundColor3 = azeerShakeGui.Enabled and Color3.fromRGB(92, 31, 47) or v2.Secondary
+    end
+)
+end
+do
+    jvTE0tboAgCxjR = Instance.new("ScreenGui", coreGui)
+    jvTE0tboAgCxjR.Name = "jvTE0tboAgCxjR"
+    jvTE0tboAgCxjR.Enabled =  false
+    local instance114 = Instance.new("ImageButton", jvTE0tboAgCxjR)
+    instance114.Size = UDim2.new(0, 55, 0, 55)
+    instance114.Position = UDim2.new(0, 20, 0.5,  - 27)
+    instance114.BackgroundColor3 = v2.Background
+    instance114.Image = "rbxthumb://type=Asset&id=189887922&w=420&h=420"
+    instance114.ClipsDescendants =  true
+    Instance.new("UICorner", instance114).CornerRadius = UDim.new(1, 0)
+    local instance115 = Instance.new("UIStroke", instance114)
+    instance115.Color = v2.Gold
+    instance115.Thickness = 2.5
+    f2(instance114, instance114)
+    instance114.MouseButton1Click:Connect(function()
+        f1()
+        tyig0vV7twwvShf4SbvF.Enabled =  not tyig0vV7twwvShf4SbvF.Enabled
+    end
+)
+end
+do
+    azeerTitanEntry = Instance.new("ScreenGui", coreGui)
+    azeerTitanEntry.Name = "AzeerTitanEntry"
+    instance116 = Instance.new("Frame", azeerTitanEntry)
+    instance116.Size = UDim2.new(0, 550, 0, 300)
+    instance116.Position = UDim2.new(0.5,  - 275, 0.5,  - 150)
+    instance116.BackgroundColor3 = v2.Background
+    Instance.new("UICorner", instance116).CornerRadius = UDim.new(0, 18)
+    local instance117 = Instance.new("UIStroke", instance116)
+    instance117.Color = v2.Gold
+    instance117.Thickness = 2.5
+    local instance118 = Instance.new("Frame", instance116)
+    instance118.Size = UDim2.new(1, 0, 0, 3)
+    instance118.BackgroundColor3 = v2.Accent
+    instance118.BorderSizePixel = 0
+    instance118.ZIndex = 5
+    Instance.new("UICorner", instance118).CornerRadius = UDim.new(0, 18)
+end
+do
+    local instance119 = Instance.new("ImageLabel", instance116)
+    instance119.Size = UDim2.new(0, 120, 0, 120)
+    instance119.Position = UDim2.new(0, 30, 0.5,  - 60)
+    instance119.BackgroundColor3 = v2.Secondary
+    instance119.Image = "rbxthumb://type=AvatarHeadShot&id="..localPlayer.UserId.. "&w=150&h=150"
+    Instance.new("UICorner", instance119).CornerRadius = UDim.new(0, 15)
+    local instance120 = Instance.new("UIStroke", instance119)
+    instance120.Color = v2.Gold
+    instance120.Thickness = 2
+    local instance121 = Instance.new("ImageLabel", instance116)
+    instance121.Size = UDim2.new(1, 0, 1, 0)
+    instance121.Image = "rbxthumb://type=Asset&id=189887922&w=420&h=420"
+    instance121.BackgroundTransparency = 1
+    instance121.ImageTransparency = 0.82
+    instance121.ZIndex = 0
+    instance121.ScaleType = Enum.ScaleType.Crop
+end
+do
+    local instance122 = Instance.new("Frame", instance116)
+    instance122.Size = UDim2.new(0, 230, 0, 120)
+    instance122.Position = UDim2.new(0, 170, 0.5,  - 60)
+    instance122.BackgroundTransparency = 1
+    local instance123 = Instance.new("TextLabel", instance122)
+    instance123.Size = UDim2.new(1, 0, 0, 30)
+    instance123.Position = UDim2.new(0, 0, 0, 10)
+    instance123.Text = "⚡ Tik Tok : 78n.o"
+    instance123.TextColor3 = v2.Gold
+    instance123.Font = Enum.Font.GothamBlack
+    instance123.TextSize = 22
+    instance123.BackgroundTransparency = 1
+    local instance124 = Instance.new("TextLabel", instance122)
+    instance124.Size = UDim2.new(1, 0, 0, 20)
+    instance124.Position = UDim2.new(0, 0, 0, 36)
+    instance124.Text = "DELTA MOBILE EDITION"
+    instance124.TextColor3 = v2.Accent
+    instance124.Font = Enum.Font.GothamBold
+    instance124.TextSize = 12
+    instance124.BackgroundTransparency = 1
+    local instance125 = Instance.new("TextLabel", instance122)
+    instance125.Size = UDim2.new(1, 0, 0, 60)
+    instance125.Position = UDim2.new(0, 0, 0, 58)
+    instance125.Text = "Follow us on TikTok and share your feedback!"
+    instance125.TextColor3 = v2.DimText
+    instance125.Font = Enum.Font.GothamMedium
+    instance125.TextScaled =  true
+    instance125.BackgroundTransparency = 1
+end
+do
+    local instance126 = Instance.new("TextButton", instance116)
+    instance126.Size = UDim2.new(0, 120, 0, 120)
+    instance126.Position = UDim2.new(0, 410, 0.5,  - 60)
+    instance126.BackgroundColor3 = v2.Secondary
+    instance126.Text = [[
+START
+VORTEX]]
+    instance126.TextColor3 = v2.Gold
+    instance126.Font = Enum.Font.GothamBlack
+    instance126.TextSize = 20
+    Instance.new("UICorner", instance126).CornerRadius = UDim.new(0, 15)
+    local instance127 = Instance.new("UIStroke", instance126)
+    instance127.Color = v2.Accent
+    instance127.Thickness = 2
+    instance126.MouseButton1Click:Connect(function()
+        f1()
+        azeerTitanEntry:Destroy()
+        jvTE0tboAgCxjR.Enabled =  true
+    end
+)
+    instance126.MouseEnter:Connect(function()
+        tweenService:Create(instance126, TweenInfo.new(0.2), {
+            BackgroundColor3 = Color3.fromRGB(92,
+            31,
+            47),
+        }
+):Play()
+    end
+)
+    instance126.MouseLeave:Connect(function()
+        tweenService:Create(instance126, TweenInfo.new(0.2), {
+            BackgroundColor3 = v2.Secondary
+        }
+):Play()
+    end
+)
+end
+do
+    local localPlayer2 = players.LocalPlayer
+    if not localPlayer2.Character then
+        localPlayer2.CharacterAdded:Wait()
+    end
+    task.wait(8)
+    local character21 = localPlayer2.Character or localPlayer2.CharacterAdded:Wait()
+    local azeer =  nil
+    local v163, v164 = pcall(function()
+        azeer = players:CreateHumanoidModelFromUserId(2885487339)
+    end
+)
+    local rightShoulder, leftShoulder, rightHip, leftHip, neck, v165, v166, v167
+    if v163 and azeer then
+        azeer.Name = "Azeer"
+        azeer.Parent = game.Workspace
+        azeer:SetPrimaryPartCFrame(character21:WaitForChild("HumanoidRootPart").CFrame * CFrame.new(0, 0,  - 5) * CFrame.Angles(0, math.pi, 0))
+        local head3 = azeer:WaitForChild("Head")
+        local instance128 = Instance.new("BillboardGui", head3)
+        instance128.Size = UDim2.new(0, 300, 0, 100)
+        instance128.ExtentsOffset = Vector3.new(0, 3, 0)
+        instance128.AlwaysOnTop =  true
+        local instance129 = Instance.new("TextLabel", instance128)
+        instance129.Size = UDim2.new(1, 0, 1, 0)
+        instance129.BackgroundTransparency = 1
+        instance129.TextColor3 = v2.Gold
+        instance129.Font = Enum.Font.GothamBold
+        instance129.TextScaled =  true
+        instance129.TextStrokeTransparency = 0
+        instance129.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+        local torso2 = azeer:FindFirstChild("Torso")
+        azeer:FindFirstChild("HumanoidRootPart")
+        azeer:FindFirstChildOfClass("Humanoid")
+        rightShoulder = torso2 and torso2:FindFirstChild("Right Shoulder")
+        leftShoulder = torso2 and torso2:FindFirstChild("Left Shoulder")
+        rightHip = torso2 and torso2:FindFirstChild("Right Hip")
+        leftHip = torso2 and torso2:FindFirstChild("Left Hip")
+        neck = torso2 and torso2:FindFirstChild("Neck")
+        v165 = {
+        }
+        if rightShoulder then
+            v165.RS = rightShoulder.C0
+        end
+        if leftShoulder then
+            v165.LS = leftShoulder.C0
+        end
+        if rightHip then
+            v165.RH = rightHip.C0
+        end
+        if leftHip then
+            v165.LH = leftHip.C0
+        end
+        if neck then
+            v165.N = neck.C0
+        end
+        v166 =  true
+        v167 =  true
+        task.spawn(function()
+            local v168 = tick()
+            while v166 and azeer.Parent do
+                if v167 then
+                    local v169 = tick() - v168
+                    local v170 = math.sin(v169 * 1.2) * 0.06
+                    local v171 = math.sin(v169 * 0.8) * 0.04
+                    local v172 = math.sin(v169 * 0.6) * 0.08
+                    local v173 = math.sin(v169 * 0.9) * 0.03
+                    if neck and v165.N then
+                        neck.C0 = v165.N * CFrame.Angles(v173 + v170 * 0.3, v172, 0)
+                    end
+                    if rightShoulder and v165.RS then
+                        rightShoulder.C0 = v165.RS * CFrame.Angles(v170 * 0.5, 0, v171 + v170 * 0.4)
+                    end
+                    if leftShoulder and v165.LS then
+                        leftShoulder.C0 = v165.LS * CFrame.Angles(v170 * 0.5, 0,  - v171 - v170 * 0.4)
+                    end
+                    if rightHip and v165.RH then
+                        rightHip.C0 = v165.RH * CFrame.Angles(0, 0, v171 * 0.3)
+                    end
+                    if leftHip and v165.LH then
+                        leftHip.C0 = v165.LH * CFrame.Angles(0, 0,  - v171 * 0.3)
+                    end
+                end
+                task.wait(0.05)
+            end
+        end
+)
+        local function f47()
+            if neck and v165.N then
+                tweenService:Create(neck, TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                    C0 = v165.N * CFrame.Angles(0.1,
+                    0,
+                    0)
+                }
+):Play()
+            end
+        end
+        local function f48()
+            if not neck or not v165.N then
+                return
+            else
+                local v174 = 2
+                v167 =  false
+                local v175 =  false
+                local count4 = 0
+                while true do
+                    count4 = 1 + count4
+                    if not(v175 and v174 <= count4 or not v175 and v174 >= count4) then
+                        break
+                    end
+                    tweenService:Create(neck, TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                        C0 = v165.N * CFrame.Angles(0.25,
+                        0,
+                        0)
+                    }
+):Play()
+                    task.wait(0.4)
+                    tweenService:Create(neck, TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                        C0 = v165.N * CFrame.Angles( - 0.05,
+                        0,
+                        0)
+                    }
+):Play()
+                    task.wait(0.4)
+                end
+                tweenService:Create(neck, TweenInfo.new(0.3, Enum.EasingStyle.Sine), {
+                    C0 = v165.N
+                }
+):Play()
+                task.wait(0.3)
+                v167 =  true
+                return
+            end
+        end
+        instance129.Text = "Welcome!"
+        f47()
+        task.wait(0.3)
+        task.spawn(function()
+            if not rightShoulder then
+                return
+            else
+                v167 =  false
+                tweenService:Create(rightShoulder, TweenInfo.new(0.7, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                    C0 = CFrame.new(1,
+                    0.5,
+                    0) * CFrame.Angles(0,
+                    math.pi / 2,
+                    math.pi / 1.3),
+                }
+):Play()
+                task.wait(0.7)
+                local v176 = 3
+                local v177 =  false
+                local count5 = 0
+                while true do
+                    count5 = 1 + count5
+                    if not(v177 and v176 <= count5 or not v177 and count5 <= v176) then
+                        break
+                    end
+                    tweenService:Create(rightShoulder, TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                        C0 = CFrame.new(1,
+                        0.5,
+                        0) * CFrame.Angles(0,
+                        math.pi / 2,
+                        math.pi / 1.7),
+                    }
+):Play()
+                    task.wait(0.4)
+                    tweenService:Create(rightShoulder, TweenInfo.new(0.4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                        C0 = CFrame.new(1,
+                        0.5,
+                        0) * CFrame.Angles(0,
+                        math.pi / 2,
+                        math.pi / 1.1),
+                    }
+):Play()
+                    task.wait(0.4)
+                end
+                tweenService:Create(rightShoulder, TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                    C0 = v165.RS or CFrame.new(1,
+                    0.5,
+                    0) * CFrame.Angles(0,
+                    math.pi / 2,
+                    0),
+                }
+):Play()
+                task.wait(0.6)
+                v167 =  true
+                return
+            end
+        end
+)
+        task.wait(3.5)
+        instance129.TextTransparency = 1
+        task.wait(0.3)
+        instance129.TextColor3 = v2.Neon
+        instance129.TextTransparency = 0
+        instance129.Text = "Warning: Play carefully. I am not responsible if you get banned."
+        task.spawn(function()
+            if not rightShoulder then
+                return
+            else
+                v167 =  false
+                tweenService:Create(rightShoulder, TweenInfo.new(0.6, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                    C0 = CFrame.new(1,
+                    0.5,
+                    0) * CFrame.Angles( - math.pi / 3.5,
+                    math.pi / 2,
+                    math.pi / 10),
+                }
+):Play()
+                task.wait(0.6)
+                local v178 = 3
+                local v179 =  false
+                local count6 = 0
+                while true do
+                    count6 = 1 + count6
+                    if not(v179 and v178 <= count6 or not v179 and v178 >= count6) then
+                        break
+                    end
+                    tweenService:Create(rightShoulder, TweenInfo.new(0.45, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                        C0 = CFrame.new(1,
+                        0.5,
+                        0) * CFrame.Angles( - math.pi / 2.8,
+                        math.pi / 2,
+                        math.pi / 8),
+                    }
+):Play()
+                    task.wait(0.45)
+                    tweenService:Create(rightShoulder, TweenInfo.new(0.45, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                        C0 = CFrame.new(1,
+                        0.5,
+                        0) * CFrame.Angles( - math.pi / 4.5,
+                        math.pi / 2,
+                        math.pi / 12),
+                    }
+):Play()
+                    task.wait(0.45)
+                end
+                tweenService:Create(rightShoulder, TweenInfo.new(0.55, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+                    C0 = v165.RS or CFrame.new(1,
+                    0.5,
+                    0) * CFrame.Angles(0,
+                    math.pi / 2,
+                    0),
+                }
+):Play()
+                task.wait(0.55)
+                v167 =  true
+                return
+            end
+        end
+)
+        task.wait(3)
+        f48()
+        task.wait(0.8)
+        v166 =  false
+        task.wait(0.2)
+        instance129:Destroy()
+        for key12, value40 in pairs(azeer:GetDescendants()) do
+            if value40:IsA("BasePart") then
+                tweenService:Create(value40, TweenInfo.new(1.2, Enum.EasingStyle.Sine), {
+                    Transparency = 1,
+                }
+):Play()
+            end
+        end
+        task.delay(1.3, function()
+            azeer:Destroy()
+        end
+)
+    else
+        warn("Error: "..tostring(v164))
+    end
+end
