@@ -21,6 +21,12 @@ function Ghost:PlayerGuiShield() coroutine.wrap(function() while self.Active do 
 function Ghost:AntiTeleportDetect() coroutine.wrap(function() while self.Active do pcall(function() if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then local h = LocalPlayer.Character.Humanoid; if h.WalkSpeed > 16 and h.WalkSpeed < 30 then end end end); task.wait(math.random(10, 20)) end end)() end
 
 -- ==================== WHITELIST ====================
+function checkWhitelist()
+    local whitelist = {"ahaklaha","versionya","mohamedz6778","31_adem3mkk5","AaayamYou_5637","Mero01605","31_adem3mkk0","RRJR4DR4DREU","Michaeltuuholoaki","31_adem3mkkZ","Stormnex20","uycm8","alsqaadm69","Hdhygdjf","3mkra101","A_4044456","marroum90","fatmah27816","zxczxc11122211","1043d7","klyhd7","be_humble62"}
+    for _,n in pairs(whitelist) do if LocalPlayer.Name:lower()==n:lower() then return true end end
+    return false
+end
+if not checkWhitelist() then LocalPlayer:Kick("غير مصرح لك!") return end
 
 -- ==================== SYSTEM ====================
 local autoMode = "Classic"
@@ -631,22 +637,6 @@ function launchMainHub()
     task.wait(0.3)
     tw(TitleBar, {BackgroundTransparency = 0.3}, 0.4); tw(badge, {BackgroundTransparency = 0.3}, 0.4); tw(bStr, {Transparency = 0.3}, 0.4)
     tw(badgeTxt, {TextTransparency = 0}, 0.4); tw(titleTxt, {TextTransparency = 0}, 0.4); tw(dot, {BackgroundTransparency = 0}, 0.4)
-    tw(minBtn, {BackgroundTransparency = 0.3, TextTransparency = 0}, 0.4)
-    tw(closeBtn, {BackgroundTransparency = 0.3, TextTransparency = 0}, 0.4)
-    task.wait(0.25); tw(divLine, {BackgroundTransparency = 0.4}, 0.4)
-
-    print("[MOH] Prumuim UI — Ready!")
-end
-
--- ==================== ACTIVATE PROTECTION ====================
-Ghost:KillTimeBombScanners()
-Ghost:NetworkMask()
-Ghost:AntiKickShield()
-Ghost:PlayerGuiShield()
-Ghost:AntiTeleportDetect()
-
-print("MOH PRUMUIM - LOADED")
- = 0}, 0.4); tw(dot, {BackgroundTransparency = 0}, 0.4)
     tw(minBtn, {BackgroundTransparency = 0.3, TextTransparency = 0}, 0.4)
     tw(closeBtn, {BackgroundTransparency = 0.3, TextTransparency = 0}, 0.4)
     task.wait(0.25); tw(divLine, {BackgroundTransparency = 0.4}, 0.4)
