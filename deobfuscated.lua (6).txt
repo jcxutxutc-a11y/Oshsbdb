@@ -1,0 +1,839 @@
+-- Dumped by Lua Dumper
+-- Protection: Loader
+-- Recovered from: layer_4.lua
+
+--[[
+	3BS Cinematic Intro v3 & Fluid Movement Assist Script
+]]
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local CoreGui = game:GetService("CoreGui")
+local TweenService = game:GetService("TweenService")
+local SoundService = game:GetService("SoundService")
+
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local Camera = workspace.CurrentCamera
+
+local TOTAL = 10
+
+-- دالة لبناء واجهة القائمة الرئيسية الأصلية بشعار 3BS
+local function OnIntroFinished()
+	-- Configuration & State
+	local isAssistEnabled = false
+	local assistLevels = {55, 75, 100}
+	local currentLevelIndex = 1
+	local currentPercentage = assistLevels[currentLevelIndex]
+
+	-- Create Main GUI Container safely
+	local ScreenGui = Instance.new("ScreenGui")
+	ScreenGui.Name = "3BS_ProgressiveMenu_Assist"
+	ScreenGui.ResetOnSpawn = false
+	ScreenGui.IgnoreGuiInset = true
+	ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+	pcall(function()
+		ScreenGui.Parent = CoreGui
+	end)
+	if not ScreenGui.Parent then
+		ScreenGui.Parent = PlayerGui
+	end
+
+	-- Main Menu Frame (خلفية تدرج أزرق غامق إلى سمائي غامق بدون شفافية)
+	local MainFrame = Instance.new("Frame", ScreenGui)
+	MainFrame.Size = UDim2.new(0, 210, 0, 110)
+	MainFrame.Position = UDim2.new(0.5, -105, 0.5, -55)
+	MainFrame.BackgroundColor3 = Color3.fromRGB(8, 20, 70)
+	MainFrame.BackgroundTransparency = 0
+	MainFrame.BorderSizePixel = 0
+	MainFrame.Active = true
+	MainFrame.Draggable = true
+	MainFrame.Visible = true
+	MainFrame.ClipsDescendants = true
+	Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 10)
+
+	-- MainFrame UIGradient & UIStroke
+	local MainGradient = Instance.new("UIGradient", MainFrame)
+	MainGradient.Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.fromRGB(8, 20, 70)),
+		ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 120, 190))
+	})
+	MainGradient.Rotation = 35
+
+	local MainStroke = Instance.new("UIStroke", MainFrame)
+	MainStroke.Color = Color3.fromRGB(0, 170, 230)
+	MainStroke.Thickness = 1.5
+
+	-- Center Logo (الشعار الدائري في المنتصف 3BS)
+	local LogoLabel = Instance.new("TextLabel", MainFrame)
+	LogoLabel.Size = UDim2.new(0, 48, 0, 48)
+	LogoLabel.Position = UDim2.new(0.5, -24, 0.5, -24)
+	LogoLabel.BackgroundColor3 = Color3.fromRGB(5, 15, 55)
+	LogoLabel.BackgroundTransparency = 0.15
+	LogoLabel.TextColor3 = Color3.fromRGB(120, 220, 255)
+	LogoLabel.TextSize = 17
+	LogoLabel.Font = Enum.Font.GothamBlack
+	LogoLabel.Text = "3BS"
+	LogoLabel.ZIndex = 1
+	Instance.new("UICorner", LogoLabel).CornerRadius = UDim.new(1, 0)
+
+	local LogoStroke = Instance.new("UIStroke", LogoLabel)
+	LogoStroke.Color = Color3.fromRGB(0, 170, 230)
+	LogoStroke.Thickness = 2
+
+	-- Power Button (رصاصي صغير في الزاوية العليا اليسرى)
+	local PowerBtn = Instance.new("TextButton", MainFrame)
+	PowerBtn.Size = UDim2.new(0, 70, 0, 24)
+	PowerBtn.Position = UDim2.new(0, 10, 0, 10)
+	PowerBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+	PowerBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	PowerBtn.TextSize = 11
+	PowerBtn.Font = Enum.Font.GothamBold
+	PowerBtn.Text = "إطفاء"
+	PowerBtn.ZIndex = 2
+	Instance.new("UICorner", PowerBtn).CornerRadius = UDim.new(0, 5)
+
+	-- Ratio Button (رصاصي صغير في الزاوية السفلى اليمنى لتغيير النسب 55 -> 75 -> 100)
+	local RatioBtn = Instance.new("TextButton", MainFrame)
+	RatioBtn.Size = UDim2.new(0, 70, 0, 24)
+	RatioBtn.Position = UDim2.new(1, -80, 1, -34)
+	RatioBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+	RatioBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	RatioBtn.TextSize = 11
+	RatioBtn.Font = Enum.Font.GothamBold
+	RatioBtn.Text = currentPercentage .. "%"
+	RatioBtn.ZIndex = 2
+	Instance.new("UICorner", RatioBtn).CornerRadius = UDim.new(0, 5)
+
+	-- Status Label (في الزاوية السفلى اليسرى)
+	local StatusLabel = Instance.new("TextLabel", MainFrame)
+	StatusLabel.Size = UDim2.new(0, 110, 0, 24)
+	StatusLabel.Position = UDim2.new(0, 10, 1, -34)
+	StatusLabel.BackgroundTransparency = 1
+	StatusLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+	StatusLabel.TextSize = 11
+	StatusLabel.Font = Enum.Font.GothamBold
+	StatusLabel.Text = "الحالة: متوقف"
+	StatusLabel.TextXAlignment = Enum.TextXAlignment.Left
+	StatusLabel.ZIndex = 2
+
+	-- Power Button Logic
+	PowerBtn.MouseButton1Click:Connect(function()
+		isAssistEnabled = not isAssistEnabled
+		if isAssistEnabled then
+			PowerBtn.BackgroundColor3 = Color3.fromRGB(50, 140, 70)
+			PowerBtn.Text = "تشغيل"
+			StatusLabel.TextColor3 = Color3.fromRGB(100, 255, 120)
+			StatusLabel.Text = "الحالة: شغال"
+		else
+			PowerBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+			PowerBtn.Text = "إطفاء"
+			StatusLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+			StatusLabel.Text = "الحالة: متوقف"
+		end
+	end)
+
+	-- Ratio Button Logic (55% -> 75% -> 100%)
+	RatioBtn.MouseButton1Click:Connect(function()
+		currentLevelIndex = currentLevelIndex + 1
+		if currentLevelIndex > #assistLevels then
+			currentLevelIndex = 1
+		end
+		currentPercentage = assistLevels[currentLevelIndex]
+		RatioBtn.Text = currentPercentage .. "%"
+	end)
+
+	-- Shift Lock check
+	local function isShiftLockEnabled()
+		return UserInputService.MouseBehavior == Enum.MouseBehavior.LockCenter
+	end
+
+	-- Check if holding a tool
+	local function hasToolEquipped()
+		local character = LocalPlayer.Character
+		if character and character:FindFirstChildOfClass("Tool") then
+			return true
+		end
+		local backpack = LocalPlayer:FindFirstChildOfClass("Backpack")
+		if backpack and backpack:FindFirstChildOfClass("Tool") then
+			return true
+		end
+		return false
+	end
+
+	-- فحص الفريق الدقيق
+	local function isEnemy(player)
+		if player == LocalPlayer then return false end
+		if LocalPlayer.Team and player.Team then
+			if player.Team == LocalPlayer.Team then return false else return true end
+		end
+		if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then return true end
+		return false
+	end
+
+	local function hasGreenIndicator(character)
+		if not character then return false end
+		for _, obj in ipairs(character:GetDescendants()) do
+			if obj:IsA("Highlight") then
+				local fillColor = obj.FillColor
+				local outlineColor = obj.OutlineColor
+				if (fillColor.G > 0.5 and fillColor.R < 0.3) or (outlineColor.G > 0.5 and outlineColor.R < 0.3) then return true end
+			elseif obj:IsA("BillboardGui") or obj:IsA("SurfaceGui") then
+				return true
+			elseif obj:IsA("SelectionBox") or obj:IsA("BoxHandleAdornment") or obj:IsA("CylinderHandleAdornment") then
+				local color = obj.Color3
+				if color.G > 0.5 and color.R < 0.3 then return true end
+			end
+		end
+		if character:FindFirstChild("ForceField") or character:FindFirstChild("GreenShield") then return true end
+		return false
+	end
+
+	local function isValidTarget(player)
+		if not player.Character then return false end
+		local character = player.Character
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		local rootPart = character:FindFirstChild("HumanoidRootPart")
+		if not humanoid or not rootPart or humanoid.Health <= 0 or not isEnemy(player) or hasGreenIndicator(character) then return false end
+		return true
+	end
+
+	-- Get closest enemy target (Front Cone + Slight Left/Right Sides)
+	local function getClosestEnemyTargetForAssist()
+		local myChar = LocalPlayer.Character
+		if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return nil end
+		local myRoot = myChar.HumanoidRootPart
+
+		local closestTarget = nil
+		local shortestDistance = 220
+		local lookVector = myRoot.CFrame.LookVector
+
+		for _, player in ipairs(Players:GetPlayers()) do
+			if isValidTarget(player) then
+				local targetRoot = player.Character.HumanoidRootPart
+				local directionToTarget = (targetRoot.Position - myRoot.Position)
+				local distance = directionToTarget.Magnitude
+
+				if distance < shortestDistance then
+					local unitDir = directionToTarget.Unit
+					local dotProduct = lookVector:Dot(unitDir)
+					
+					if dotProduct > -0.5 then
+						shortestDistance = distance
+						closestTarget = targetRoot
+					end
+				end
+			end
+		end
+		return closestTarget
+	end
+
+	-- Main Fluid Movement Assist Loop
+	RunService.RenderStepped:Connect(function()
+		if not isAssistEnabled then return end
+		if not isShiftLockEnabled() then return end
+
+		local character = LocalPlayer.Character
+		if not character then return end
+		local rootPart = character:FindFirstChild("HumanoidRootPart")
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+		if not rootPart or not humanoid or humanoid.Health <= 0 then return end
+		if not hasToolEquipped() then return end
+
+		-- القوة الموزونة للنسب الثلاثة بدقة
+		local baseMultiplier = 0.32 -- 55%
+		if currentPercentage == 75 then
+			baseMultiplier = 0.44  -- 75%
+		elseif currentPercentage == 100 then
+			baseMultiplier = 0.58  -- 100%
+		end
+
+		local currentStrength = baseMultiplier
+		local moveDir = humanoid.MoveDirection
+
+		if moveDir.Magnitude > 0.1 then
+			local targetRoot = getClosestEnemyTargetForAssist()
+
+			if targetRoot then
+				local targetPos = targetRoot.Position
+				local directToTarget = (targetPos - rootPart.Position)
+				local flatDirection = Vector3.new(directToTarget.X, 0, directToTarget.Z).Unit
+				
+				local fluidMove = moveDir:Lerp(flatDirection, currentStrength)
+				humanoid:Move(fluidMove.Unit, false)
+			end
+		end
+	end)
+end
+
+-- تشغيل المقدمة السينمائية الكاملة (كودك الأصلي تماماً دون أي تعديل)
+local function tw(obj, t, props, style, dir)
+	local tween = TweenService:Create(obj, TweenInfo.new(t, style or Enum.EasingStyle.Sine, dir or Enum.EasingDirection.Out), props)
+	tween:Play()
+	return tween
+end
+
+local function gradient(parent, rot, seq, colorSeq)
+	local g = Instance.new("UIGradient")
+	g.Rotation = rot
+	if seq then g.Transparency = seq end
+	if colorSeq then g.Color = colorSeq end
+	g.Parent = parent
+	return g
+end
+
+local IntroGui = Instance.new("ScreenGui")
+IntroGui.Name = "3BS_Intro"
+IntroGui.IgnoreGuiInset = true
+IntroGui.ResetOnSpawn = false
+IntroGui.DisplayOrder = 999
+pcall(function() IntroGui.Parent = CoreGui end)
+if not IntroGui.Parent then IntroGui.Parent = PlayerGui end
+
+local Root = Instance.new("CanvasGroup")
+Root.Size = UDim2.fromScale(1, 1)
+Root.BackgroundColor3 = Color3.new(0, 0, 0)
+Root.BorderSizePixel = 0
+Root.GroupTransparency = 1
+Root.Parent = IntroGui
+
+local vw = Camera.ViewportSize
+local W, H = vw.X, vw.Y
+
+local World = Instance.new("Frame")
+World.AnchorPoint = Vector2.new(0.5, 0.5)
+World.Position = UDim2.fromScale(0.5, 0.5)
+World.Size = UDim2.fromScale(1.2, 1.2)
+World.BackgroundTransparency = 1
+World.ZIndex = 1
+World.Parent = Root
+local WorldScale = Instance.new("UIScale", World)
+WorldScale.Scale = 1
+
+local Sky = Instance.new("Frame")
+Sky.Size = UDim2.fromScale(1, 1)
+Sky.BorderSizePixel = 0
+Sky.BackgroundColor3 = Color3.new(1, 1, 1)
+Sky.ZIndex = 1
+Sky.Parent = World
+gradient(Sky, 90, nil, ColorSequence.new({
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(4, 7, 18)),
+	ColorSequenceKeypoint.new(0.4, Color3.fromRGB(12, 26, 52)),
+	ColorSequenceKeypoint.new(0.8, Color3.fromRGB(8, 16, 32)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(2, 3, 8)),
+}))
+
+local moonX, moonY = 0.72, 0.16
+for i = 1, 6 do
+	local r = 70 + i * 55
+	local c = Instance.new("Frame")
+	c.AnchorPoint = Vector2.new(0.5, 0.5)
+	c.Position = UDim2.fromScale(moonX, moonY)
+	c.Size = UDim2.fromOffset(r, r)
+	c.BackgroundColor3 = Color3.fromRGB(150, 185, 235)
+	c.BackgroundTransparency = 0.90 + i * 0.015
+	c.BorderSizePixel = 0
+	c.ZIndex = 2
+	Instance.new("UICorner", c).CornerRadius = UDim.new(1, 0)
+	c.Parent = World
+end
+local Moon = Instance.new("Frame")
+Moon.AnchorPoint = Vector2.new(0.5, 0.5)
+Moon.Position = UDim2.fromScale(moonX, moonY)
+Moon.Size = UDim2.fromOffset(62, 62)
+Moon.BackgroundColor3 = Color3.fromRGB(215, 230, 255)
+Moon.BackgroundTransparency = 0.15
+Moon.BorderSizePixel = 0
+Moon.ZIndex = 2
+Instance.new("UICorner", Moon).CornerRadius = UDim.new(1, 0)
+Moon.Parent = World
+
+local rays = {}
+for i = 1, 5 do
+	local r = Instance.new("Frame")
+	r.AnchorPoint = Vector2.new(0.5, 0)
+	r.Position = UDim2.fromScale(moonX, moonY)
+	r.Size = UDim2.fromOffset(math.random(50, 120), H * 1.5)
+	r.Rotation = -35 + i * 14
+	r.BackgroundColor3 = Color3.fromRGB(150, 190, 255)
+	r.BackgroundTransparency = 0.94
+	r.BorderSizePixel = 0
+	r.ZIndex = 2
+	gradient(r, 90, NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 0.2), NumberSequenceKeypoint.new(1, 1),
+	}))
+	r.Parent = World
+	table.insert(rays, {f = r, ph = math.random() * 6})
+end
+
+local SkyGlow = Instance.new("Frame")
+SkyGlow.Size = UDim2.fromScale(1, 1)
+SkyGlow.BorderSizePixel = 0
+SkyGlow.BackgroundColor3 = Color3.fromRGB(150, 190, 255)
+SkyGlow.BackgroundTransparency = 1
+SkyGlow.ZIndex = 3
+SkyGlow.Parent = World
+gradient(SkyGlow, 90, NumberSequence.new({
+	NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(0.6, 0.7), NumberSequenceKeypoint.new(1, 1),
+}))
+
+local CloudLayer = Instance.new("Frame")
+CloudLayer.Size = UDim2.fromScale(1, 1)
+CloudLayer.BackgroundTransparency = 1
+CloudLayer.ZIndex = 4
+CloudLayer.Parent = World
+
+local clouds, puffs = {}, {}
+local layers = {
+	{count = 5, y = -0.02, speed = 8,  alpha = 0.88, w = 560, h = 160, col = Color3.fromRGB(46, 62, 92)},
+	{count = 5, y = 0.03,  speed = 16, alpha = 0.80, w = 440, h = 125, col = Color3.fromRGB(30, 43, 68)},
+	{count = 4, y = 0.09,  speed = 28, alpha = 0.72, w = 360, h = 100, col = Color3.fromRGB(18, 28, 46)},
+}
+for _, L in ipairs(layers) do
+	for i = 1, L.count do
+		local c = Instance.new("Frame")
+		c.BackgroundTransparency = 1
+		c.Size = UDim2.fromOffset(L.w, L.h)
+		c.ZIndex = 4
+		c.Parent = CloudLayer
+		for _ = 1, 8 do
+			local s = math.random(55, 100) / 100
+			local puff = Instance.new("Frame")
+			puff.Size = UDim2.fromOffset(L.w * 0.38 * s, L.h * s)
+			puff.Position = UDim2.fromOffset(math.random(0, L.w * 0.62), math.random(0, L.h * 0.35))
+			puff.BackgroundColor3 = L.col
+			puff.BackgroundTransparency = L.alpha
+			puff.BorderSizePixel = 0
+			puff.ZIndex = 4
+			Instance.new("UICorner", puff).CornerRadius = UDim.new(1, 0)
+			puff.Parent = c
+			table.insert(puffs, {f = puff, col = L.col})
+		end
+		table.insert(clouds, {
+			f = c, x = (i - 1) * (W / L.count) - L.w * 0.5 + math.random(-60, 60),
+			y = L.y * H, speed = L.speed, w = L.w,
+		})
+	end
+end
+
+local fogs = {}
+for i = 1, 3 do
+	local f = Instance.new("Frame")
+	f.Size = UDim2.fromOffset(W * 1.6, H * 0.28)
+	f.Position = UDim2.fromOffset(-W * 0.3 * i, H * (0.72 + i * 0.04))
+	f.BackgroundColor3 = Color3.fromRGB(70, 95, 140)
+	f.BackgroundTransparency = 0.9
+	f.BorderSizePixel = 0
+	f.ZIndex = 5
+	gradient(f, 0, NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 1), NumberSequenceKeypoint.new(0.5, 0), NumberSequenceKeypoint.new(1, 1),
+	}))
+	f.Parent = World
+	table.insert(fogs, {f = f, x = -W * 0.3 * i, y = H * (0.72 + i * 0.04), v = 6 + i * 4})
+end
+
+local RainLayer = Instance.new("Frame")
+RainLayer.Size = UDim2.fromScale(1, 1)
+RainLayer.BackgroundTransparency = 1
+RainLayer.ZIndex = 6
+RainLayer.Parent = World
+
+local drops = {}
+for i = 1, 110 do
+	local far = i <= 60
+	local d = Instance.new("Frame")
+	d.Size = UDim2.fromOffset(far and 1 or 2, far and math.random(10, 18) or math.random(24, 42))
+	d.BackgroundColor3 = Color3.fromRGB(175, 205, 240)
+	d.BackgroundTransparency = far and math.random(80, 90) / 100 or math.random(60, 78) / 100
+	d.BorderSizePixel = 0
+	d.Rotation = 12
+	d.ZIndex = 6
+	d.Parent = RainLayer
+	table.insert(drops, {f = d, x = math.random(0, W + 200), y = math.random(0, H), v = far and math.random(500, 700) or math.random(1100, 1500)})
+end
+
+local DustLayer = Instance.new("Frame")
+DustLayer.Size = UDim2.fromScale(1, 1)
+DustLayer.BackgroundTransparency = 1
+DustLayer.ZIndex = 8
+DustLayer.Parent = World
+local dust = {}
+for _ = 1, 34 do
+	local s = math.random(2, 4)
+	local d = Instance.new("Frame")
+	d.Size = UDim2.fromOffset(s, s)
+	d.BackgroundColor3 = Color3.fromRGB(200, 225, 255)
+	d.BackgroundTransparency = 1
+	d.BorderSizePixel = 0
+	d.ZIndex = 8
+	Instance.new("UICorner", d).CornerRadius = UDim.new(1, 0)
+	d.Parent = DustLayer
+	table.insert(dust, {f = d, x = math.random(0, W), y = math.random(H * 0.3, H), v = math.random(10, 40), sway = math.random() * 6, shown = false})
+end
+local dustOn = false
+
+local BoltLayer = Instance.new("Frame")
+BoltLayer.Size = UDim2.fromScale(1, 1)
+BoltLayer.BackgroundTransparency = 1
+BoltLayer.ZIndex = 7
+BoltLayer.Parent = World
+
+local function seg(p1, p2, thick, color, transp)
+	local d = p2 - p1
+	local f = Instance.new("Frame")
+	f.AnchorPoint = Vector2.new(0.5, 0.5)
+	f.BorderSizePixel = 0
+	f.BackgroundColor3 = color
+	f.BackgroundTransparency = transp
+	f.Size = UDim2.fromOffset(d.Magnitude + 2, thick)
+	f.Position = UDim2.fromOffset((p1.X + p2.X) / 2, (p1.Y + p2.Y) / 2)
+	f.Rotation = math.deg(math.atan2(d.Y, d.X))
+	f.ZIndex = 7
+	f.Parent = BoltLayer
+end
+
+local function genPath(p, angle, steps, stepLen, jitter, depth, out, scale)
+	local pts = {p}
+	for i = 1, steps do
+		angle = angle + (math.random() - 0.5) * jitter
+		p = p + Vector2.new(math.cos(angle), math.sin(angle)) * stepLen * (0.7 + math.random() * 0.6)
+		pts[#pts + 1] = p
+		if depth > 0 and i > 2 and math.random() < 0.22 then
+			local side = math.random() < 0.5 and -1 or 1
+			genPath(p, angle + side * (0.5 + math.random() * 0.6), math.max(3, steps - i - 2), stepLen * 0.8, jitter * 1.2, depth - 1, out, scale * 0.55)
+		end
+	end
+	out[#out + 1] = {pts = pts, scale = scale}
+end
+
+local function genBolt()
+	local out = {}
+	local x = W * (0.38 + math.random() * 0.2)
+	genPath(Vector2.new(x, -10), math.pi / 2, 18, H * 0.045, 1.0, 2, out, 1)
+	return out
+end
+
+local function drawBolt(data, bright)
+	BoltLayer:ClearAllChildren()
+	for _, path in ipairs(data) do
+		local s = path.scale
+		for i = 1, #path.pts - 1 do
+			seg(path.pts[i], path.pts[i + 1], 22 * s, Color3.fromRGB(90, 140, 255), bright and 0.84 or 0.92)
+			seg(path.pts[i], path.pts[i + 1], 8 * s, Color3.fromRGB(180, 210, 255), 0.5)
+			seg(path.pts[i], path.pts[i + 1], math.max(1.5, 3 * s), Color3.new(1, 1, 1), 0)
+		end
+	end
+end
+
+local function lightClouds(on)
+	for _, p in ipairs(puffs) do
+		tw(p.f, on and 0.05 or 0.6, {BackgroundColor3 = on and Color3.fromRGB(125, 155, 210) or p.col})
+	end
+end
+
+local Flash = Instance.new("Frame")
+Flash.Size = UDim2.fromScale(1, 1)
+Flash.BackgroundColor3 = Color3.new(1, 1, 1)
+Flash.BackgroundTransparency = 1
+Flash.BorderSizePixel = 0
+Flash.ZIndex = 40
+Flash.Parent = Root
+
+local thunder = Instance.new("Sound")
+thunder.SoundId = "rbxassetid://9114221315"
+thunder.Volume = 1.3
+thunder.Parent = SoundService
+
+local shaking = false
+local function shake(duration, power)
+	task.spawn(function()
+		local t0 = os.clock()
+		shaking = true
+		while os.clock() - t0 < duration do
+			local k = (1 - (os.clock() - t0) / duration) ^ 2
+			World.Position = UDim2.new(0.5, math.random(-power, power) * k, 0.5, math.random(-power, power) * k)
+			task.wait()
+		end
+		World.Position = UDim2.fromScale(0.5, 0.5)
+		shaking = false
+	end)
+end
+
+local function lensFlare(y)
+	local f = Instance.new("Frame")
+	f.AnchorPoint = Vector2.new(0.5, 0.5)
+	f.Position = UDim2.fromOffset(W * 0.5, y)
+	f.Size = UDim2.fromOffset(W * 0.9, 4)
+	f.BackgroundColor3 = Color3.fromRGB(150, 190, 255)
+	f.BackgroundTransparency = 0.1
+	f.BorderSizePixel = 0
+	f.ZIndex = 9
+	gradient(f, 0, NumberSequence.new({
+		NumberSequenceKeypoint.new(0, 1), NumberSequenceKeypoint.new(0.5, 0), NumberSequenceKeypoint.new(1, 1),
+	}))
+	f.Parent = World
+	tw(f, 0.9, {BackgroundTransparency = 1, Size = UDim2.fromOffset(W * 1.2, 1)})
+	task.delay(1, function() f:Destroy() end)
+end
+
+local function strike(big)
+	local data = genBolt()
+	drawBolt(data, big)
+	lightClouds(true)
+	SkyGlow.BackgroundTransparency = big and 0.3 or 0.72
+	Flash.BackgroundTransparency = big and 0.2 or 0.82
+	if big then
+		lensFlare(H * 0.55)
+		shake(0.7, 10)
+		task.delay(0.4, function() thunder:Play() end)
+	end
+	task.wait(0.07)
+	BoltLayer:ClearAllChildren()
+	Flash.BackgroundTransparency = big and 0.65 or 0.95
+	task.wait(0.05)
+	if big then
+		drawBolt(data, true)
+		Flash.BackgroundTransparency = 0.35
+		task.wait(0.07)
+		for _, c in ipairs(BoltLayer:GetChildren()) do
+			tw(c, 0.5, {BackgroundTransparency = 1})
+		end
+	else
+		BoltLayer:ClearAllChildren()
+	end
+	lightClouds(false)
+	tw(Flash, big and 1.0 or 0.4, {BackgroundTransparency = 1})
+	tw(SkyGlow, big and 1.4 or 0.5, {BackgroundTransparency = 1})
+	task.wait(0.6)
+	BoltLayer:ClearAllChildren()
+end
+
+local function edge(pos, size, rot)
+	local f = Instance.new("Frame")
+	f.Position = pos
+	f.Size = size
+	f.BackgroundColor3 = Color3.new(0, 0, 0)
+	f.BorderSizePixel = 0
+	f.ZIndex = 20
+	gradient(f, rot, NumberSequence.new({NumberSequenceKeypoint.new(0, 0.05), NumberSequenceKeypoint.new(1, 1)}))
+	f.Parent = Root
+end
+edge(UDim2.fromScale(0, 0), UDim2.fromScale(1, 0.3), 90)
+edge(UDim2.fromScale(0, 0.7), UDim2.fromScale(1, 0.3), 270)
+edge(UDim2.fromScale(0, 0), UDim2.fromScale(0.25, 1), 0)
+edge(UDim2.fromScale(0.75, 0), UDim2.fromScale(0.25, 1), 180)
+
+local grain = {}
+for _ = 1, 45 do
+	local g = Instance.new("Frame")
+	g.Size = UDim2.fromOffset(2, 2)
+	g.BackgroundColor3 = Color3.new(1, 1, 1)
+	g.BackgroundTransparency = 0.88
+	g.BorderSizePixel = 0
+	g.ZIndex = 25
+	g.Parent = Root
+	table.insert(grain, g)
+end
+
+local BarTop = Instance.new("Frame")
+BarTop.Size = UDim2.new(1, 0, 0, 0)
+BarTop.BackgroundColor3 = Color3.new(0, 0, 0)
+BarTop.BorderSizePixel = 0
+BarTop.ZIndex = 50
+BarTop.Parent = Root
+local BarBottom = Instance.new("Frame")
+BarBottom.AnchorPoint = Vector2.new(0, 1)
+BarBottom.Position = UDim2.fromScale(0, 1)
+BarBottom.Size = UDim2.new(1, 0, 0, 0)
+BarBottom.BackgroundColor3 = Color3.new(0, 0, 0)
+BarBottom.BorderSizePixel = 0
+BarBottom.ZIndex = 50
+BarBottom.Parent = Root
+
+local LogoGlow = Instance.new("Frame")
+LogoGlow.AnchorPoint = Vector2.new(0.5, 0.5)
+LogoGlow.Position = UDim2.fromScale(0.5, 0.5)
+LogoGlow.Size = UDim2.fromOffset(260, 260)
+LogoGlow.BackgroundColor3 = Color3.fromRGB(60, 120, 230)
+LogoGlow.BackgroundTransparency = 1
+LogoGlow.BorderSizePixel = 0
+LogoGlow.ZIndex = 21
+Instance.new("UICorner", LogoGlow).CornerRadius = UDim.new(1, 0)
+LogoGlow.Parent = Root
+
+local LogoHolder = Instance.new("Frame")
+LogoHolder.AnchorPoint = Vector2.new(0.5, 0.5)
+LogoHolder.Position = UDim2.fromScale(0.5, 0.5)
+LogoHolder.Size = UDim2.fromOffset(440, 160)
+LogoHolder.BackgroundTransparency = 1
+LogoHolder.ClipsDescendants = true
+LogoHolder.ZIndex = 22
+LogoHolder.Parent = Root
+local LogoScale = Instance.new("UIScale", LogoHolder)
+LogoScale.Scale = 1.25
+
+local chars = {{"3", 64}, {"B", 64}, {"S", 60}, {" ", 28}, {"H", 66}, {"U", 66}, {"B", 64}}
+local totalW = 0
+for _, c in ipairs(chars) do totalW += c[2] end
+local x = (440 - totalW) / 2
+local letters = {}
+for _, c in ipairs(chars) do
+	if c[1] ~= " " then
+		local l = Instance.new("TextLabel")
+		l.Size = UDim2.fromOffset(c[2], 120)
+		l.Position = UDim2.fromOffset(x, 60)
+		l.BackgroundTransparency = 1
+		l.Font = Enum.Font.GothamBlack
+		l.Text = c[1]
+		l.TextSize = 90
+		l.TextColor3 = Color3.new(1, 1, 1)
+		l.TextTransparency = 1
+		l.ZIndex = 23
+		gradient(l, 90, nil, ColorSequence.new({
+			ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+			ColorSequenceKeypoint.new(0.55, Color3.fromRGB(200, 220, 250)),
+			ColorSequenceKeypoint.new(1, Color3.fromRGB(110, 150, 215)),
+		}))
+		local st = Instance.new("UIStroke", l)
+		st.Color = Color3.fromRGB(90, 150, 255)
+		st.Thickness = 2.5
+		st.Transparency = 1
+		l.Parent = LogoHolder
+		table.insert(letters, {l = l, x = x, st = st})
+	end
+	x += c[2]
+end
+
+local Sweep = Instance.new("Frame")
+Sweep.AnchorPoint = Vector2.new(0.5, 0.5)
+Sweep.Size = UDim2.fromOffset(70, 300)
+Sweep.Position = UDim2.new(-0.2, 0, 0.5, 0)
+Sweep.Rotation = 20
+Sweep.BackgroundColor3 = Color3.new(1, 1, 1)
+Sweep.BackgroundTransparency = 1
+Sweep.BorderSizePixel = 0
+Sweep.ZIndex = 25
+gradient(Sweep, 0, NumberSequence.new({
+	NumberSequenceKeypoint.new(0, 1), NumberSequenceKeypoint.new(0.5, 0.15), NumberSequenceKeypoint.new(1, 1),
+}))
+Sweep.Parent = LogoHolder
+
+local function line(side)
+	local l = Instance.new("Frame")
+	l.AnchorPoint = Vector2.new(side < 0 and 1 or 0, 0.5)
+	l.Position = UDim2.new(0.5, side * 6, 0.5, 78)
+	l.Size = UDim2.fromOffset(0, 2)
+	l.BackgroundColor3 = Color3.fromRGB(130, 180, 255)
+	l.BorderSizePixel = 0
+	l.ZIndex = 22
+	gradient(l, side < 0 and 180 or 0, NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(1, 1)}))
+	l.Parent = Root
+	return l
+end
+local lineL, lineR = line(-1), line(1)
+
+local Sub = Instance.new("TextLabel")
+Sub.AnchorPoint = Vector2.new(0.5, 0.5)
+Sub.Position = UDim2.new(0.5, 0, 0.5, 100)
+Sub.Size = UDim2.fromOffset(320, 24)
+Sub.BackgroundTransparency = 1
+Sub.Font = Enum.Font.GothamMedium
+Sub.Text = "A S S I S T   S Y S T E M"
+Sub.TextSize = 14
+Sub.TextColor3 = Color3.fromRGB(175, 205, 245)
+Sub.TextTransparency = 1
+Sub.ZIndex = 22
+Sub.Parent = Root
+
+local grainTimer = 0
+local conn = RunService.RenderStepped:Connect(function(dt)
+	for _, c in ipairs(clouds) do
+		c.x += c.speed * dt
+		if c.x > W + 80 then c.x = -c.w end
+		c.f.Position = UDim2.fromOffset(c.x, c.y)
+	end
+	for _, d in ipairs(drops) do
+		d.y += d.v * dt
+		d.x -= d.v * 0.2 * dt
+		if d.y > H then d.y = -40 d.x = math.random(0, W + 200) end
+		d.f.Position = UDim2.fromOffset(d.x, d.y)
+	end
+	for _, f in ipairs(fogs) do
+		f.x += f.v * dt
+		if f.x > 0 then f.x = -W * 0.6 end
+		f.f.Position = UDim2.fromOffset(f.x, f.y)
+	end
+	for _, p in ipairs(dust) do
+		p.y -= p.v * dt
+		p.x += math.sin(os.clock() + p.sway) * 12 * dt
+		if p.y < -10 then p.y = H + 10 end
+		p.f.Position = UDim2.fromOffset(p.x, p.y)
+		if dustOn and not p.shown then
+			p.shown = true
+			tw(p.f, 1.5, {BackgroundTransparency = math.random(40, 75) / 100})
+		end
+	end
+	local t = os.clock()
+	for _, r in ipairs(rays) do
+		r.f.BackgroundTransparency = 0.935 + math.sin(t * 0.8 + r.ph) * 0.02
+	end
+	grainTimer += dt
+	if grainTimer > 0.04 then
+		grainTimer = 0
+		for _, g in ipairs(grain) do
+			g.Position = UDim2.fromOffset(math.random(0, W), math.random(0, H))
+		end
+	end
+end)
+
+task.spawn(function()
+	local t0 = os.clock()
+	local function waitUntil(t)
+		while os.clock() - t0 < t do task.wait() end
+	end
+
+	tw(Root, 1.5, {GroupTransparency = 0})
+	tw(BarTop, 1.6, {Size = UDim2.new(1, 0, 0.11, 0)}, Enum.EasingStyle.Quint)
+	tw(BarBottom, 1.6, {Size = UDim2.new(1, 0, 0.11, 0)}, Enum.EasingStyle.Quint)
+	tw(WorldScale, 9, {Scale = 1.09}, Enum.EasingStyle.Linear)
+
+	waitUntil(2.6)
+	task.spawn(strike, false)
+
+	waitUntil(4.5)
+	task.spawn(strike, true)
+
+	waitUntil(5.4)
+	tw(LogoGlow, 1.8, {BackgroundTransparency = 0.9, Size = UDim2.fromOffset(560, 300)})
+	tw(LogoScale, 2.0, {Scale = 1}, Enum.EasingStyle.Quint)
+	for i, L in ipairs(letters) do
+		task.delay((i - 1) * 0.13, function()
+			tw(L.l, 0.8, {TextTransparency = 0, Position = UDim2.fromOffset(L.x, 20)}, Enum.EasingStyle.Quint)
+			tw(L.st, 0.8, {Transparency = 0.45})
+		end)
+	end
+
+	waitUntil(6.9)
+	Sweep.BackgroundTransparency = 0
+	tw(Sweep, 1.0, {Position = UDim2.new(1.2, 0, 0.5, 0)}, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
+
+	waitUntil(7.4)
+	dustOn = true
+	tw(lineL, 1.2, {Size = UDim2.fromOffset(170, 2)}, Enum.EasingStyle.Quint)
+	tw(lineR, 1.2, {Size = UDim2.fromOffset(170, 2)}, Enum.EasingStyle.Quint)
+	tw(Sub, 1.2, {TextTransparency = 0.05})
+
+	waitUntil(9.0)
+	tw(Root, 1.0, {GroupTransparency = 1}, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
+
+	waitUntil(TOTAL)
+	conn:Disconnect()
+	pcall(function()
+		thunder:Destroy()
+		IntroGui:Destroy()
+	end)
+	pcall(OnIntroFinished)
+end)
